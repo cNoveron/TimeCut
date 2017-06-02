@@ -1,0 +1,24 @@
+1.6
+
+* Removed buttons' size hints (caused some button labels be truncated).
+* Resizable task list window.
+* Include swt.jar to linux binary distro to stick with precise SWT version.
+* Modern looking flat icons, modified notification popup.
+* Updated status line.
+* A built-in LCD font is used in timer window.
+
+1.5
+
+* Workspace locking correctly works on Linux (utilizes /run/lock).
+* "New", "Closed", "Open" columns in "Summary" table.
+* timecult.sh fixed to overwrite an old desktop entry upon version change.
+* Allow https: for hyperlinks
+* FIXED: Clear a background of due tasks when they are closed or cancelled
+
+1.4
+
+* Versioning scheme changed 0.14->1.4
+* [Enter] expands/collapses project tree branch.
+* launch4j is used for Win launcher, bundled JRE.
+* A flag can be set using one of the numeric keys '1'..'5' or cleared with '0' key.
+* Deadline field for project items.
