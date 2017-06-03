@@ -46,10 +46,10 @@ import java.util.Calendar;
 import net.sf.timecut.model.*;
 
 public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
-    private SWTMainWindow _mainWindow;
-    private Display       _display;
-    private Rectangle     _bounds;
-    private SplashScreen  _splashScreen;
+    public SWTMainWindow _mainWindow;
+    public Display       _display;
+    public Rectangle     _bounds;
+    public SplashScreen  _splashScreen;
 
     public void initUI() {
         _display = new Display();
@@ -238,9 +238,8 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
             // Keep bounds before disposing the display to allow
             // configuration manager to save them.
             //
-            org.eclipse.swt.graphics.Rectangle r = _mainWindow.getShell()
-                .getBounds();
-            _bounds = new Rectangle(r.x, r.y, r.width, r.height);
+            org.eclipse.swt.graphics.Rectangle rectangle = _mainWindow.getShell().getBounds();
+            _bounds = new Rectangle(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 
             try {
                 if (!_display.readAndDispatch())

@@ -19,13 +19,13 @@
  */
 package net.sf.timecut.export;
 
-import net.sf.timecut.TimeTracker;
 import net.sf.timecut.util.Formatter;
 
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import net.sf.timecut.TimeTracker;
 import net.sf.timecut.model.*;
 
 /**

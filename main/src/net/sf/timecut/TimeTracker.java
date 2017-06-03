@@ -30,7 +30,22 @@ import net.sf.timecut.util.Formatter;
  */
 public class TimeTracker implements WorkspaceListener {
 
-    public final static String FILE_EXT = ".tmt";    
+    public final static String FILE_EXT = ".tmt";   
+    
+    private Workspace _workspace = null;
+    //private ProjectTreeItem _selectedItem = null;
+    private ProjectTreeItem _clipboardItem = null;
+    //private Task _selectedTask = null;
+    //private Project _selectedProject = null;
+    //private MainWindow _mainWindow = null;
+    private GenericUIManager _uiManager = null;
+    private File _workspaceFile = null;
+    private static TimeTracker _activeInstance = null;
+    private Vector<File> _recentlyOpenFiles = new Vector<File>();
+    private ConfigurationManager _confManager = null;
+    private boolean _isUIInitialized = false;
+    private AutosaveManager autosaveManager;
+    private boolean saving; 
 
     public TimeTracker() {
     	//_uiManager = new SwingUIManager();
@@ -498,23 +513,5 @@ public class TimeTracker implements WorkspaceListener {
         return recentTasks.toArray(new Task[recentTasks.size()]);
     }
     
-    
-    // Private attributes
-    //========================================================================
-
-    private Workspace _workspace = null;
-    //private ProjectTreeItem _selectedItem = null;
-    private ProjectTreeItem _clipboardItem = null;
-    //private Task _selectedTask = null;
-    //private Project _selectedProject = null;
-    //private MainWindow _mainWindow = null;
-    private GenericUIManager _uiManager = null;
-    private File _workspaceFile = null;
-    private static TimeTracker _activeInstance = null;
-    private Vector<File> _recentlyOpenFiles = new Vector<File>();
-    private ConfigurationManager _confManager = null;
-    private boolean _isUIInitialized = false;
-    private AutosaveManager autosaveManager;
-    private boolean saving;
 
 }

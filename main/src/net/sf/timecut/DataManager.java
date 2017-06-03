@@ -2,6 +2,7 @@ package net.sf.timecut;
 
 import java.io.File;
 import java.util.*;
+import net.sf.timecut.conf.AdminConfigurationManager;
 
 import net.sf.timecut.conf.AppPreferences;
 import net.sf.timecut.conf.ConfigurationManager;
@@ -19,7 +20,9 @@ import net.sf.timecut.stopwatch.StopwatchListener;
 import net.sf.timecut.ui.GenericUIManager;
 import net.sf.timecut.ui.swt.SWTUIManager;
 import net.sf.timecut.ui.dbconection.Conection;
+import net.sf.timecut.ui.swt.SWTUIAdminManager;
 import net.sf.timecut.util.Formatter;
+
 
 /**
  * Top-level component, acts as a controller. Contains main() method to launch
@@ -29,12 +32,27 @@ import net.sf.timecut.util.Formatter;
  */
 public class DataManager implements WorkspaceListener {
 
-    public final static String FILE_EXT = ".tmt";    
+    public final static String FILE_EXT = ".tmt";   
+    
+    private Workspace _workspace = null;
+    //private ProjectTreeItem _selectedItem = null;
+    private ProjectTreeItem _clipboardItem = null;
+    //private Task _selectedTask = null;
+    //private Project _selectedProject = null;
+    //private MainWindow _mainWindow = null;
+    private GenericUIManager _uiManager = null;
+    private File _workspaceFile = null;
+    private static DataManager _activeInstance = null;
+    private Vector<File> _recentlyOpenFiles = new Vector<File>();
+    private ConfigurationManager _confManager = null;
+    private boolean _isUIInitialized = false;
+    private AutosaveManager autosaveManager;
+    private boolean saving; 
 
     public DataManager() {
     	//_uiManager = new SwingUIManager();
-    	_uiManager = new SWTUIManager();
-        _confManager = new ConfigurationManager(this);
+    	_uiManager = new SWTUIAdminManager();
+        _confManager = new AdminConfigurationManager(this);
         this.autosaveManager = new AutosaveManager();
         this.autosaveManager.addListener((SWTUIManager)_uiManager);
         _activeInstance = this;
@@ -86,7 +104,7 @@ public class DataManager implements WorkspaceListener {
 
 
     public static void main(String[] args) {        
-        DataManager timeTracker = new DataManager();
+        TimeTracker timeTracker = new TimeTracker();
         timeTracker.loadConfiguration();        
         if (args.length > 0) {
             File cmdlineFile = new File(args[0]);
@@ -497,23 +515,5 @@ public class DataManager implements WorkspaceListener {
         return recentTasks.toArray(new Task[recentTasks.size()]);
     }
     
-    
-    // Private attributes
-    //========================================================================
-
-    private Workspace _workspace = null;
-    //private ProjectTreeItem _selectedItem = null;
-    private ProjectTreeItem _clipboardItem = null;
-    //private Task _selectedTask = null;
-    //private Project _selectedProject = null;
-    //private MainWindow _mainWindow = null;
-    private GenericUIManager _uiManager = null;
-    private File _workspaceFile = null;
-    private static DataManager _activeInstance = null;
-    private Vector<File> _recentlyOpenFiles = new Vector<File>();
-    private ConfigurationManager _confManager = null;
-    private boolean _isUIInitialized = false;
-    private AutosaveManager autosaveManager;
-    private boolean saving;
 
 }
