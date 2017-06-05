@@ -43,7 +43,7 @@ public class DataManager implements WorkspaceListener {
     private File _workspaceFile = null;
     private static DataManager _activeInstance = null;
     private Vector<File> _recentlyOpenFiles = new Vector<File>();
-    private ConfigurationManager _confManager = null;
+    private AdminConfigurationManager _confManager = null;
     private boolean _isUIInitialized = false;
     private AutosaveManager autosaveManager;
     private boolean saving; 
@@ -492,7 +492,7 @@ public class DataManager implements WorkspaceListener {
     }
     */
     
-    public ConfigurationManager getConfigurationManager() {
+    public AdminConfigurationManager getConfigurationManager() {
         return this._confManager;
     }
     

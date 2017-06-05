@@ -44,7 +44,7 @@ public class AdvancedTimeFilterView implements TimeFilterView {
     
     private TimeTracker              tracker;
     private List                     filterList;
-    private SWTWindow            Window;
+    private SWTWindow               Window;
     private HashMap<Integer, String> indexToLabel = new HashMap<Integer, String>();
     private TimeFilterToolbar        toolbar;
     

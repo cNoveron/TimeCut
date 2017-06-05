@@ -13,92 +13,107 @@ import net.sf.timecut.model.WorkspaceListener;
  * user home directory on other (non-Windows) systems
  * @author rvishnyakov
  */
-public class AdminConfigurationManager extends ConfigurationManager {    
+public class AdminConfigurationManager {    
 
     private File _confFile = null;
     private WorkspaceListener _workspaceListener = null;
     private Point timerPos;
-    private Properties _properties;
-    private String _separator;
+    private Properties props;
+    public static final String TIMER_POS_X    = "timer.x";
+    public static final String TIMER_POS_Y    = "timer.y";
+    public static final String APP_WIN_TOP    = "window.y";
+    public static final String APP_WIN_LEFT   = "window.x";
+    public static final String APP_WIN_WIDTH  = "window.width";
+    public static final String APP_WIN_HEIGHT = "window.height";
+    public static final String LOOK_AND_FEEL  = "lookAndFeel";
+    public static final String CONF_FILE_NAME = "timecult.xml";
+    public static final String TIME_LOG_COL_WIDTHS = "timeLogColWidths";
+    public static final String TREE_TAB_SASH_WEIGHTS = "treeTabSashWeights";
+    public static final String TOTALS_COL_WIDTHS = "totalsColWidths";
+    public static final String SELECTED_TAB = "selectedTab";
 
     public AdminConfigurationManager(WorkspaceListener workspaceListener) {
-        super(workspaceListener);
+        _workspaceListener = workspaceListener;
+        File confDir = new File(getConfigDir());
+        confDir.mkdirs();
+        _confFile = new File(confDir.getAbsolutePath()
+            + System.getProperty("file.separator") + CONF_FILE_NAME);
+        this.props = new Properties();
     }
 
-    @Override
     public void load() throws FileNotFoundException, IOException {
         if (_confFile.exists()) {
-            this._properties.loadFromXML(new FileInputStream(_confFile));
+            this.props.loadFromXML(new FileInputStream(_confFile));
             int i = 0;
             String fileStr = null;
-            while ((fileStr = _properties.getProperty("files." + i)) != null) {
+            while ((fileStr = props.getProperty("files." + i)) != null) {
                 File file = new File(fileStr);
                 if (file.exists()) {
                     _workspaceListener.addRecentlyOpenFile(file);
                 }
                 i ++;
             }
-            int top = Integer.parseInt(_properties.getProperty(APP_WIN_TOP));
-            int left = Integer.parseInt(_properties.getProperty(APP_WIN_LEFT));
-            int width = Integer.parseInt(_properties.getProperty(APP_WIN_WIDTH));
-            int height = Integer.parseInt(_properties.getProperty(APP_WIN_HEIGHT));
+            int top = Integer.parseInt(props.getProperty(APP_WIN_TOP));
+            int left = Integer.parseInt(props.getProperty(APP_WIN_LEFT));
+            int width = Integer.parseInt(props.getProperty(APP_WIN_WIDTH));
+            int height = Integer.parseInt(props.getProperty(APP_WIN_HEIGHT));
             _workspaceListener.getUIManager().setBounds(left, top, width, height);
-            String lfClassName = _properties.getProperty(LOOK_AND_FEEL);
+            String lfClassName = props.getProperty(LOOK_AND_FEEL);
             if (lfClassName != null) {
                 _workspaceListener.getUIManager().setLookAndFeel(lfClassName);
             }
-            readDefaultTimerPos(_properties);
+            readDefaultTimerPos(props);
             readTimeLogColWidths();
             readTotalsColWidths();
             readTreeTabSashWeights();            
             readSelectedTab();
-            readAppPreferences(_properties); 
+            readAppPreferences(props);            
         }
     }
 
     public void save() throws IOException {
-        this._properties.clear();
+        this.props.clear();
         //
         // Recently open files
         //
         File[] recentlyOpenFiles = _workspaceListener.getRecentlyOpenFiles();
         for (int i = 0; i < recentlyOpenFiles.length; i++) {
-            this._properties.setProperty("files." + i, recentlyOpenFiles[i].getAbsolutePath());
+            this.props.setProperty("files." + i, recentlyOpenFiles[i].getAbsolutePath());
         }
         //
         // Window coordinates
         //
         Rectangle winBounds = _workspaceListener.getUIManager().getBounds();
-        this._properties.setProperty(APP_WIN_TOP, Integer.toString(winBounds.y));
-        this._properties.setProperty(APP_WIN_LEFT, Integer.toString(winBounds.x));
-        this._properties.setProperty(APP_WIN_HEIGHT, Integer.toString(winBounds.height));
-        this._properties.setProperty(APP_WIN_WIDTH, Integer.toString(winBounds.width));
-        this._properties.setProperty(LOOK_AND_FEEL, _workspaceListener.getUIManager()
+        this.props.setProperty(APP_WIN_TOP, Integer.toString(winBounds.y));
+        this.props.setProperty(APP_WIN_LEFT, Integer.toString(winBounds.x));
+        this.props.setProperty(APP_WIN_HEIGHT, Integer.toString(winBounds.height));
+        this.props.setProperty(APP_WIN_WIDTH, Integer.toString(winBounds.width));
+        this.props.setProperty(LOOK_AND_FEEL, _workspaceListener.getUIManager()
             .getLookAndFeel());
-        saveDefaultTimerPos(_properties);
-        saveAppPreferences(_properties);
+        saveDefaultTimerPos(props);
+        saveAppPreferences(props);
         saveTimeLogColWidths();
         saveTotalsColWidths();
         saveTreeTabSashWeights();
         saveSelectedTab();
         
-        this._properties.storeToXML(new FileOutputStream(_confFile), "TimeCult Configuration");
+        this.props.storeToXML(new FileOutputStream(_confFile), "TimeCult Configuration");
     }
     
     private String getConfigDir() {
+    	String separator = System.getProperty("file.separator");
     	StringBuffer confDir = new StringBuffer();
     	String osName = System.getProperty("os.name");
     	if (osName.startsWith("Windows")) {
     		confDir.append(System.getenv("APPDATA"));
-    		confDir.append(_separator);
+    		confDir.append(separator);
     		confDir.append("TimeCult");
     	}    	
     	else { // On UNIX-based systems
     		confDir.append(System.getProperty("user.home"));
-    		confDir.append(_separator);
+    		confDir.append(separator);
     		confDir.append(".timecult");
     	}
-        System.out.println(confDir);
     	return confDir.toString();
     }
     
@@ -130,12 +145,12 @@ public class AdminConfigurationManager extends ConfigurationManager {
     
     private void saveDefaultTimerPos(Properties props) throws IOException {
         if (timerPos != null && AppPreferences.getInstance().isKeepTimerPos()) {
-            this._properties.setProperty(TIMER_POS_X, Integer.toString(timerPos.x));
-            this._properties.setProperty(TIMER_POS_Y, Integer.toString(timerPos.y));
+            this.props.setProperty(TIMER_POS_X, Integer.toString(timerPos.x));
+            this.props.setProperty(TIMER_POS_Y, Integer.toString(timerPos.y));
         }
         else {
-            this._properties.remove(TIMER_POS_X);
-            this._properties.remove(TIMER_POS_Y);
+            this.props.remove(TIMER_POS_X);
+            this.props.remove(TIMER_POS_Y);
         }
     }
     
@@ -149,12 +164,12 @@ public class AdminConfigurationManager extends ConfigurationManager {
                 buf.append(',');
             }
         }
-        this._properties.setProperty(TIME_LOG_COL_WIDTHS, buf.toString());
+        this.props.setProperty(TIME_LOG_COL_WIDTHS, buf.toString());
     }
     
     
     private void readTimeLogColWidths() {
-        String widthsStr = this._properties.getProperty(TIME_LOG_COL_WIDTHS);
+        String widthsStr = this.props.getProperty(TIME_LOG_COL_WIDTHS);
         AppPreferences appPrefs = AppPreferences.getInstance();
         if (widthsStr != null) {
             String colWidths[] = widthsStr.split(",");
@@ -174,12 +189,12 @@ public class AdminConfigurationManager extends ConfigurationManager {
                 buf.append(',');
             }
         }
-        this._properties.setProperty(TOTALS_COL_WIDTHS, buf.toString());
+        this.props.setProperty(TOTALS_COL_WIDTHS, buf.toString());
     }
     
     
     private void readTotalsColWidths() {
-        String widthsStr = this._properties.getProperty(TOTALS_COL_WIDTHS);
+        String widthsStr = this.props.getProperty(TOTALS_COL_WIDTHS);
         AppPreferences appPrefs = AppPreferences.getInstance();
         if (widthsStr != null) {
             String colWidths[] = widthsStr.split(",");
@@ -199,12 +214,12 @@ public class AdminConfigurationManager extends ConfigurationManager {
                 buf.append(',');
             }
         }
-        this._properties.setProperty(TREE_TAB_SASH_WEIGHTS, buf.toString());
+        this.props.setProperty(TREE_TAB_SASH_WEIGHTS, buf.toString());
     }
     
     
     private void readTreeTabSashWeights() {
-        String weightsStr = this._properties.getProperty(TREE_TAB_SASH_WEIGHTS);
+        String weightsStr = this.props.getProperty(TREE_TAB_SASH_WEIGHTS);
         int weights[] = null;
         if (weightsStr != null) {
             String weightStr[] = weightsStr.split(",");
@@ -218,7 +233,7 @@ public class AdminConfigurationManager extends ConfigurationManager {
     
     
     private void readSelectedTab() {
-        String selectedTabStr = this._properties.getProperty(SELECTED_TAB);
+        String selectedTabStr = this.props.getProperty(SELECTED_TAB);
         if (selectedTabStr != null) {
             AppPreferences.getInstance().setSelectedTab(Integer.parseInt(selectedTabStr));
         }
@@ -226,7 +241,7 @@ public class AdminConfigurationManager extends ConfigurationManager {
     
     
     private void saveSelectedTab() {
-        this._properties.setProperty(SELECTED_TAB, Integer.toString(AppPreferences
+        this.props.setProperty(SELECTED_TAB, Integer.toString(AppPreferences
             .getInstance().getSelectedTab()));
     }
     
