@@ -193,7 +193,7 @@ public class SWTMainWindow implements SWTWindow {
     }
 
 
-    public SWTProjectTreeView getProjectTreeView() {
+    public SWTProjectTreeView getTreeView() {
         return _projTreeView;
     }
 

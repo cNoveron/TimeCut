@@ -25,7 +25,7 @@ import net.sf.timecut.model.ProjectTreeItem;
 import net.sf.timecut.model.Workspace;
 import net.sf.timecut.ui.swt.SWTDialog;
 import net.sf.timecut.ui.swt.SWTWindow;
-import net.sf.timecut.ui.swt.SWTProjectTreeView;
+import net.sf.timecut.ui.swt.SWTTreeView;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -50,14 +50,14 @@ public class FindDialog extends SWTDialog {
     private Label statusLabel;
     private final SWTWindow Window;
     private Button findNextButton;
-    private SWTProjectTreeView projectTreeView;
+    private SWTTreeView projectTreeView;
     private String currSearchKey;
 
     public FindDialog(SWTWindow Window, Workspace workspace) {
         super(Window.getShell(), true);
         this.workspace = workspace;
         this.Window = Window;
-        this.projectTreeView = Window.getProjectTreeView();
+        this.projectTreeView = Window.getTreeView();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class FindDialog extends SWTDialog {
 
     private void selectItem(int itemNo) {
         statusLabel.setText((itemNo + 1) + " of " + foundItems.size());
-        this.Window.getProjectTreeView().setCurrentSelection(foundItems.get(itemNo));
+        this.Window.getTreeView().setCurrentSelection(foundItems.get(itemNo));
     }
 
     private void doFind() {

@@ -189,7 +189,7 @@ public class SWTAdminWindow implements SWTWindow {
         return _mainTabFolder;
     }
 
-    public SWTAdminProjectTreeView getProjectTreeView() {
+    public SWTAdminProjectTreeView getTreeView() {
         return _projTreeView;
     }
 

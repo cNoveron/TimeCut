@@ -184,7 +184,7 @@ public class TaskListView extends SWTDialog {
         TableItem[] items = taskListTable.getSelection();
         if (items.length > 0) {
             Task selectedTask = (Task) items[0].getData();
-            this.Window.getProjectTreeView().setCurrentSelection(selectedTask);
+            this.Window.getTreeView().setCurrentSelection(selectedTask);
         }
     }
 

@@ -85,7 +85,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
     }
 
     public void setCurrentSelection(Object object) {
-        _mainWindow.getProjectTreeView().setCurrentSelection(object);
+        _mainWindow.getTreeView().setCurrentSelection(object);
     }
 
     public void displaySplashScreen() {
@@ -97,18 +97,18 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
         if (!task.isFlagged()) {
             task.setStatus(TaskStatus.IN_PROGRESS);
         }
-        _mainWindow.getProjectTreeView().updateTreeItemStyle(task);
+        _mainWindow.getTreeView().updateTreeItemStyle(task);
         SWTTimerWindow timerWindow = SWTTimerWindow.newInstance(_mainWindow,
             workspace, task);
         timerWindow.launchTimer();
     }
 
     public void updateProjectTree() {
-        _mainWindow.getProjectTreeView().update();
+        _mainWindow.getTreeView().update();
     }
 
     public void updateOnSelection(Object object) {
-        _mainWindow.getProjectTreeView().getPopupMenu().updateOnSelection(object);
+        _mainWindow.getTreeView().getPopupMenu().updateOnSelection(object);
         _mainWindow.getMainToolBar().updateOnSelection(object);
         _mainWindow.getTotalsTableView().updateOnSelection(object);
         _mainWindow.getDetailsView().updateOnSelection(object);
@@ -118,7 +118,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
     }
 
     public void updateOnRemove(Object object) {
-        _mainWindow.getProjectTreeView().updateOnRemove(object);
+        _mainWindow.getTreeView().updateOnRemove(object);
     }
 
     public void updateAll() {
@@ -167,7 +167,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
         if (source != null && source instanceof TimeRecord) {
             _mainWindow.getTimeLogView().select();
             _mainWindow.getTimeLogView().selectItem((TimeRecord) source);
-            _mainWindow.getProjectTreeView().setCurrentSelection(((TimeRecord) source).getTask());
+            _mainWindow.getTreeView().setCurrentSelection(((TimeRecord) source).getTask());
         }
     }
 
@@ -300,7 +300,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
     }
 
     public void rebindWorkspaceListeners(Workspace workspace) {
-        workspace.addListener(_mainWindow.getProjectTreeView().getPopupMenu());
+        workspace.addListener(_mainWindow.getTreeView().getPopupMenu());
         workspace.addListener(_mainWindow.getStatusLine());
     }
 

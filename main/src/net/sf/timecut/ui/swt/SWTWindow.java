@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
 
 /**
  *
@@ -22,7 +23,7 @@ public interface SWTWindow {
     public Shell getShell();
     public void updateTitle();
     public MenuFactory getMenuFactory();
-    public SWTTreeView getProjectTreeView();
+    public SWTTreeView getTreeView();
     public Composite getFilterContainer();
     public void restoreWindow();
     public Menu createInProgressStartMenu(MenuItem parentItem,SelectionListener l);

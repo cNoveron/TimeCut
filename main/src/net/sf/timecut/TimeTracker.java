@@ -21,7 +21,6 @@ import net.sf.timecut.ui.swt.SWTUIManager;
 import net.sf.timecut.ui.dbconection.Conection;
 import net.sf.timecut.util.Formatter;
 
-
 /**
  * Top-level component, acts as a controller. Contains main() method to launch
  * the application.

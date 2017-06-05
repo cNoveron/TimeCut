@@ -110,8 +110,8 @@ public class SWTTotalsTableView {
 
     public void updateTable() {
 		_table.removeAll();
-		if (_Window.getProjectTreeView().getTree().getSelectionCount() > 0) {
-			TreeItem selectedItem = _Window.getProjectTreeView().getTree()
+		if (_Window.getTreeView().getTree().getSelectionCount() > 0) {
+			TreeItem selectedItem = _Window.getTreeView().getTree()
 					.getSelection()[0];
 			if (selectedItem != null) {
 				_timeLog = TimeTracker.getInstance().getWorkspace()
