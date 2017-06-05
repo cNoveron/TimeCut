@@ -8,7 +8,6 @@ import net.sf.timecut.conf.AppPreferences;
 import net.sf.timecut.conf.ConfigurationManager;
 import net.sf.timecut.export.CSVExporter;
 import net.sf.timecut.io.AutosaveManager;
-import net.sf.timecut.io.AutosaveManagerListener;
 import net.sf.timecut.io.FileLockManager;
 import net.sf.timecut.io.WorkspaceReader;
 import net.sf.timecut.io.WorkspaceXMLWriter;
@@ -19,9 +18,8 @@ import net.sf.timecut.model.mem.MemTimeLog;
 import net.sf.timecut.stopwatch.StopwatchEvent;
 import net.sf.timecut.stopwatch.StopwatchListener;
 import net.sf.timecut.ui.GenericUIManager;
-import net.sf.timecut.ui.swt.SWTUIManager;
-import net.sf.timecut.ui.dbconection.Conection;
 import net.sf.timecut.ui.swt.SWTUIAdminManager;
+import net.sf.timecut.ui.dbconection.Conection;
 import net.sf.timecut.util.Formatter;
 
 
