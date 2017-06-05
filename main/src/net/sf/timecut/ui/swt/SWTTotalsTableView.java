@@ -58,17 +58,17 @@ public class SWTTotalsTableView {
 
     private AppPreferences appPrefs;
 
-    public SWTTotalsTableView(SWTMainWindow mainWindow) {
-        _mainWindow = mainWindow;
+    public SWTTotalsTableView(SWTWindow Window) {
+        _Window = Window;
         this.appPrefs = AppPreferences.getInstance();
         setup();
     }
 
     private void setup() {
-        TabItem totalsTab = new TabItem(_mainWindow.getMainTabFolder()
+        TabItem totalsTab = new TabItem(_Window.getMainTabFolder()
                 .getTabs(), SWT.NONE);
         totalsTab.setText(ResourceHelper.getString("tab.summary"));
-        _table = new Table(_mainWindow.getMainTabFolder().getTabs(),
+        _table = new Table(_Window.getMainTabFolder().getTabs(),
                 SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
         totalsTab.setControl(_table);
         _table.setLinesVisible(true);
@@ -110,8 +110,8 @@ public class SWTTotalsTableView {
 
     public void updateTable() {
 		_table.removeAll();
-		if (_mainWindow.getProjectTreeView().getTree().getSelectionCount() > 0) {
-			TreeItem selectedItem = _mainWindow.getProjectTreeView().getTree()
+		if (_Window.getProjectTreeView().getTree().getSelectionCount() > 0) {
+			TreeItem selectedItem = _Window.getProjectTreeView().getTree()
 					.getSelection()[0];
 			if (selectedItem != null) {
 				_timeLog = TimeTracker.getInstance().getWorkspace()
@@ -195,7 +195,7 @@ public class SWTTotalsTableView {
             for (FontData aF : f) {
                 aF.setStyle(SWT.BOLD);
             }
-            Font fn = new Font(_mainWindow.getShell().getDisplay(), f);
+            Font fn = new Font(_Window.getShell().getDisplay(), f);
             item.setFont(fn);
 		}
         item.setData(data);
@@ -203,7 +203,7 @@ public class SWTTotalsTableView {
 
     public void copySelectionToClipboard() {
         TableItem[] items = _table.getSelection();
-        Clipboard clipboard = new Clipboard(_mainWindow.getShell().getDisplay());
+        Clipboard clipboard = new Clipboard(_Window.getShell().getDisplay());
         TextTransfer textTransfer = TextTransfer.getInstance();
         Transfer[] transfers = new Transfer[] { textTransfer };
         StringBuffer buf = new StringBuffer();
@@ -235,7 +235,7 @@ public class SWTTotalsTableView {
         _table.setMenu(_popup);
         MenuItem copyItem = new MenuItem(_popup, SWT.CASCADE);
         copyItem.setText(ResourceHelper.getString("menu.copy") + "\tCtrl+C");
-        copyItem.setImage(_mainWindow.getIconSet().getIcon("copy", true));
+        copyItem.setImage(_Window.getIconSet().getIcon("copy", true));
         copyItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 copySelectionToClipboard();
@@ -244,7 +244,7 @@ public class SWTTotalsTableView {
         new MenuItem(_popup, SWT.SEPARATOR);
         MenuItem selectAllItem = new MenuItem(_popup, SWT.CASCADE);
         selectAllItem.setText("Select All" + "\tCtrl+A"); //TODO: LOCALIZE
-        selectAllItem.setImage(_mainWindow.getIconSet().getIcon("copy", true));
+        selectAllItem.setImage(_Window.getIconSet().getIcon("copy", true));
         selectAllItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 _table.selectAll();
@@ -252,7 +252,7 @@ public class SWTTotalsTableView {
         });
     }
 
-	private SWTMainWindow _mainWindow;
+	private SWTWindow _Window;
     private Table         _table;
     private TimeLog       _timeLog;
     private Menu          _popup;

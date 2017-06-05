@@ -35,20 +35,20 @@ import org.eclipse.swt.widgets.Shell;
 
 public class TrayMenu {
 
-    private SWTMainWindow   mainWindow;
+    private SWTWindow   Window;
     private Shell           trayShell;
     private static TrayMenu instance;
     private Menu            popup;
 
 
-    private TrayMenu(SWTMainWindow mainWindow) {
-        this.mainWindow = mainWindow;
+    private TrayMenu(SWTWindow Window) {
+        this.Window = Window;
     }
 
 
-    public static TrayMenu getInstance(SWTMainWindow mainWindow) {
+    public static TrayMenu getInstance(SWTWindow Window) {
         if (instance == null) {
-            instance = new TrayMenu(mainWindow);
+            instance = new TrayMenu(Window);
         }
         return instance;
     }
@@ -69,7 +69,7 @@ public class TrayMenu {
     }
     
     public void open() {
-        Display d = mainWindow.getShell().getDisplay();
+        Display d = Window.getShell().getDisplay();
         if (trayShell == null || trayShell.isDisposed()) {
             trayShell = new Shell(d, SWT.SINGLE);
             setup(trayShell);
@@ -87,12 +87,12 @@ public class TrayMenu {
         openItem.setText(ResourceHelper.getString("traymenu.open"));
         openItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                TrayMenu.this.mainWindow.restoreWindow();               
+                TrayMenu.this.Window.restoreWindow();               
             }
         });
         MenuItem startItem = new MenuItem(popup, SWT.CASCADE);
         startItem.setText(ResourceHelper.getString("traymenu.start"));
-        startItem.setMenu(this.mainWindow.createInProgressStartMenu(
+        startItem.setMenu(this.Window.createInProgressStartMenu(
             startItem,
             new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {                    
@@ -101,7 +101,7 @@ public class TrayMenu {
                         Object data = item.getData();
                         if (data instanceof Task) {
                             final Task task = (Task) data;
-                            mainWindow.getShell().getDisplay().timerExec(500, new Runnable() {
+                            Window.getShell().getDisplay().timerExec(500, new Runnable() {
                                 @Override
                                 public void run() {
 

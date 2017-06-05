@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.MenuItem;
  */
 public class MenuFactory {
 
-    private SWTMainWindow mainWindow;
+    private SWTWindow     Window;
     private Image         projectImage;
     private Image         taskImage;
     private Image         activityImage;
@@ -44,14 +44,14 @@ public class MenuFactory {
     /**
      * Constructor.
      * 
-     * @param mainWindow
+     * @param Window
      *            Main window owning the menu factory.
      */
-    public MenuFactory(SWTMainWindow mainWindow) {
-        this.mainWindow = mainWindow;
-        this.activityImage = this.mainWindow.getIconSet().getIcon("activity", true);
-        this.taskImage = this.mainWindow.getIconSet().getIcon("inProgress", true);
-        this.projectImage = this.mainWindow.getIconSet().getIcon("project", true);
+    public MenuFactory(SWTWindow Window) {
+        this.Window = Window;
+        this.activityImage = this.Window.getIconSet().getIcon("activity", true);
+        this.taskImage = this.Window.getIconSet().getIcon("inProgress", true);
+        this.projectImage = this.Window.getIconSet().getIcon("project", true);
     }
 
 
@@ -71,7 +71,7 @@ public class MenuFactory {
         addProjectItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 SWTProjectEditDialog projDialog = new SWTProjectEditDialog(
-                    mainWindow);
+                    Window);
                 projDialog.open();
             }
         });
@@ -81,7 +81,7 @@ public class MenuFactory {
         addTaskItem.setImage(this.taskImage);
         addTaskItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                SWTTaskEditDialog taskDialog = new SWTTaskEditDialog(mainWindow);
+                SWTTaskEditDialog taskDialog = new SWTTaskEditDialog(Window);
                 taskDialog.open();
             }
         });
@@ -92,7 +92,7 @@ public class MenuFactory {
         addActivityItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 ActivityEditDialog actDialog = new ActivityEditDialog(
-                    mainWindow);
+                    Window);
                 actDialog.open();
             }
         });
@@ -109,12 +109,12 @@ public class MenuFactory {
     public MenuItem createPropertyItem(Menu parent) {
         MenuItem propsItem = new MenuItem(parent, SWT.CASCADE);
         propsItem.setText(ResourceHelper.getString("menu.properties") + "\tAlt+Enter");
-        propsItem.setImage(this.mainWindow.getIconSet().getIcon("edit", true));
+        propsItem.setImage(this.Window.getIconSet().getIcon("edit", true));
         propsItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 ProjectTreeItem selection = TimeTracker.getInstance().getWorkspace().getSelection();
                 if (selection != null) {
-                    SWTDialog propertyDialog = DialogFactory.createPropertyDialog(mainWindow, selection);
+                    SWTDialog propertyDialog = DialogFactory.createPropertyDialog(Window, selection);
                     if (propertyDialog != null) {
                         propertyDialog.open();
                     }

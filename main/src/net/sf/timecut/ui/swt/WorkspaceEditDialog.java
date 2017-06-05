@@ -33,7 +33,7 @@ public class WorkspaceEditDialog extends SWTProjectEditDialog {
     private Workspace workspace;
     private Combo roundUpCombo;
     
-    public WorkspaceEditDialog(SWTMainWindow mainWindow, Workspace selection) {
+    public WorkspaceEditDialog(SWTWindow mainWindow, Workspace selection) {
         super(mainWindow, selection);
         this.workspace = selection;
     }

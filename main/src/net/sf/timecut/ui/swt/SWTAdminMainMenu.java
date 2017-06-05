@@ -15,7 +15,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  * 
- * $Id: SWTMainMenu.java,v 1.29 2011/01/21 08:00:10 dyadix Exp $
+ * $Id: SWTAdminMainMenu.java,v 1.29 2011/01/21 08:00:10 dyadix Exp $
  */
 package net.sf.timecut.ui.swt;
 
@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
 import net.sf.timecut.ResourceHelper;
-import net.sf.timecut.TimeTracker;
+import net.sf.timecut.DataManager;
 import net.sf.timecut.model.*;
 import net.sf.timecut.ui.swt.help.HelpProvider;
 import net.sf.timecut.ui.swt.help.SWTAboutDialog;
@@ -40,11 +40,11 @@ import net.sf.timecut.ui.swt.prefs.PreferencesDialog;
 import net.sf.timecut.ui.swt.tasklist.TaskListView;
 
 /**
- * Main TimeTracker menu.
+ * Main DataManager menu.
  * 
  * @author rvishnyakov
  */
-public class SWTMainMenu {
+public class SWTAdminMainMenu {
     
     public final static int MAX_FILE_CHARS = 40;
     private Shell         _parent;
@@ -56,7 +56,7 @@ public class SWTMainMenu {
     private MenuItem      _deleteItem;
     private MenuItem      _startTimerItem;
 
-    public SWTMainMenu(SWTWindow Window) {
+    public SWTAdminMainMenu(SWTWindow Window) {
         _parent = Window.getShell();
         _Window = Window;
         setup();
@@ -115,7 +115,7 @@ public class SWTMainMenu {
             .setImage(_Window.getIconSet().getIcon("newWorkspace", true));
         newItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                TimeTracker.getInstance().resetWorkspace();
+                DataManager.getInstance().resetWorkspace();
             }
         });
         //
@@ -126,7 +126,7 @@ public class SWTMainMenu {
         openItem.setImage(_Window.getIconSet().getIcon("open", true));
         openItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                TimeTracker.getInstance().openWorkspace();
+                DataManager.getInstance().openWorkspace();
             }
         });
         //
@@ -138,7 +138,7 @@ public class SWTMainMenu {
         _saveItem.setImage(_Window.getIconSet().getIcon("save", true)); 
         _saveItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                TimeTracker.getInstance().saveWorkspace(true);
+                DataManager.getInstance().saveWorkspace(true);
             }
         });
         _saveItem.setAccelerator(SWT.CTRL | 'S');
@@ -149,7 +149,7 @@ public class SWTMainMenu {
         saveAsItem.setText(ResourceHelper.getString("menu.saveAs"));
         saveAsItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                TimeTracker.getInstance().saveWorkspace(false);
+                DataManager.getInstance().saveWorkspace(false);
             }
         });
         //      
@@ -163,7 +163,7 @@ public class SWTMainMenu {
         exportToCsvItem.setText(ResourceHelper.getString("menu.export.csv"));
         exportToCsvItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                TimeTracker.getInstance().exportToCsv();
+                DataManager.getInstance().exportToCsv();
             }
         });
         new MenuItem(fileMenu, SWT.SEPARATOR);
@@ -180,7 +180,7 @@ public class SWTMainMenu {
         menuFileExit.setText(ResourceHelper.getString("menu.exit"));
         menuFileExit.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                TimeTracker.getInstance().exit();
+                DataManager.getInstance().exit();
             }
         });
         return fileItem;
@@ -207,7 +207,7 @@ public class SWTMainMenu {
         _deleteItem.setImage(_Window.getIconSet().getIcon("delete", true));
         _deleteItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                TimeTracker.getInstance().removeSelection();
+                DataManager.getInstance().removeSelection();
             }
         });
         new MenuItem(editMenu, SWT.SEPARATOR);
@@ -217,7 +217,7 @@ public class SWTMainMenu {
 
 
     private void createRecentlyOpenFileItems(Menu menu) {
-        File[] fileList = TimeTracker.getInstance().getRecentlyOpenFiles();
+        File[] fileList = DataManager.getInstance().getRecentlyOpenFiles();
         for (int i = fileList.length - 1; i >= 0; i --) {
             MenuItem fileItem = new MenuItem(menu, SWT.CASCADE);
             String filePath = fileList[i].getAbsolutePath();
@@ -250,7 +250,7 @@ public class SWTMainMenu {
                 public void widgetSelected(SelectionEvent e) {
                     MenuItem item = (MenuItem) e.getSource();
                     File file = new File((String) item.getData());
-                    TimeTracker.getInstance().loadWorkspace(file);
+                    DataManager.getInstance().loadWorkspace(file);
                 }
 
 
@@ -352,7 +352,7 @@ public class SWTMainMenu {
         _startTimerItem.setImage(_Window.getIconSet().getIcon("start", true));
         _startTimerItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                TimeTracker.getInstance().startTimer();
+                DataManager.getInstance().startTimer();
             }
         });
         _startTimerItem.setAccelerator(SWT.CTRL + 'R');
@@ -382,7 +382,7 @@ public class SWTMainMenu {
         findItem.setAccelerator(SWT.CTRL | 'F');
         findItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                FindDialog findDialog = new FindDialog(_Window, TimeTracker.getInstance().getWorkspace());
+                FindDialog findDialog = new FindDialog(_Window, DataManager.getInstance().getWorkspace());
                 findDialog.open();
             }
         });

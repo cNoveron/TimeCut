@@ -30,7 +30,7 @@ import net.sf.timecut.model.Activity;
 import net.sf.timecut.model.Task;
 import net.sf.timecut.model.TaskStatus;
 import net.sf.timecut.ui.swt.IconSet;
-import net.sf.timecut.ui.swt.SWTMainWindow;
+import net.sf.timecut.ui.swt.SWTWindow;
 import net.sf.timecut.ui.swt.ToolBarBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -48,7 +48,7 @@ public class TaskListToolbar extends ToolBarBase {
     private LinkedList<ToolItem> items;
 
     public TaskListToolbar(TaskListView taskView, Composite contentPanel) {
-        super(contentPanel.getShell(), taskView.getMainWindow().getIconSet(), 2);
+        super(contentPanel.getShell(), taskView.getWindow().getIconSet(), 2);
         this.taskView = taskView;
     }
 
@@ -201,7 +201,7 @@ public class TaskListToolbar extends ToolBarBase {
         }
         catch (Exception e) {
             e.printStackTrace();
-            this.taskView.getMainWindow().showError(
+            this.taskView.getWindow().showError(
                 e.getClass().getName() + ":" + e.getMessage());
         }
     }

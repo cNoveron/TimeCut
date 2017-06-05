@@ -28,11 +28,11 @@ import org.eclipse.swt.widgets.ToolItem;
 
 public class TimeFilterToolbar extends ToolBarBase {
 
-    private AdvancedTimeFilterView filterView;
+    private TimeFilterView filterView;
     private ToolItem     deleteFilter;
 
-    public TimeFilterToolbar(AdvancedTimeFilterView filterView, Composite contentPanel) {
-        super(contentPanel, filterView.getMainWindow().getIconSet(), 1);
+    public TimeFilterToolbar(TimeFilterView filterView, Composite contentPanel) {
+        super(contentPanel, filterView.getWindow().getIconSet(), 1);
         this.filterView = filterView;
     }
 

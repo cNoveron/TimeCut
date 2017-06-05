@@ -29,7 +29,7 @@ import net.sf.timecut.model.WorkspaceEvent;
 import net.sf.timecut.stopwatch.Stopwatch;
 import net.sf.timecut.stopwatch.StopwatchEvent;
 import net.sf.timecut.stopwatch.StopwatchListener;
-import net.sf.timecut.ui.swt.SWTMainWindow;
+import net.sf.timecut.ui.swt.SWTWindow;
 import net.sf.timecut.ui.swt.SWTUIManager;
 import net.sf.timecut.ui.swt.timelog.TimeLogEntryEditDialog;
 import net.sf.timecut.util.Formatter;
@@ -61,7 +61,7 @@ public class SWTTimerWindow implements StopwatchListener {
     private Display         _display;
     private Task            _task;
     private Label           _timeLabel;
-    private SWTMainWindow   _parent;
+    private SWTWindow   _parent;
     private static int      _instanceCount;
     private TrayItem        _trayItem;
     private TimerTrayMenu   _trayMenu;
@@ -75,7 +75,7 @@ public class SWTTimerWindow implements StopwatchListener {
     private long            _saveTimersInterval     = 10000; // 10 seconds by default
 
 
-    private SWTTimerWindow(SWTMainWindow parent, Workspace workspace, Task task) {
+    private SWTTimerWindow(SWTWindow parent, Workspace workspace, Task task) {
         _stopwatch = new Stopwatch();
         _stopwatch.addStopwatchListener(this);
         _task = task;
@@ -91,7 +91,7 @@ public class SWTTimerWindow implements StopwatchListener {
         return _parent.getShell();
     }
 
-    public SWTMainWindow getParent() {
+    public SWTWindow getParent() {
         return _parent;
     }
 
@@ -137,10 +137,10 @@ public class SWTTimerWindow implements StopwatchListener {
     }
 
 
-    public static SWTTimerWindow newInstance(SWTMainWindow mainWindow,
+    public static SWTTimerWindow newInstance(SWTWindow Window,
         Workspace workspace, Task task) {
         incInstances();
-        return new SWTTimerWindow(mainWindow, workspace, task);
+        return new SWTTimerWindow(Window, workspace, task);
     }
 
 

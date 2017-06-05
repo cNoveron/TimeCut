@@ -1,6 +1,6 @@
 package net.sf.timecut.ui.swt.notifications;
 
-import net.sf.timecut.ui.swt.SWTMainWindow;
+import net.sf.timecut.ui.swt.SWTWindow;
 
 public class NotificationManager {
     
@@ -8,8 +8,8 @@ public class NotificationManager {
     private Thread notificationThread;
     private String message;
     
-    public NotificationManager(SWTMainWindow mainWindow) {
-        this.notificationWindow = new NotificationWindow(mainWindow);
+    public NotificationManager(SWTWindow Window) {
+        this.notificationWindow = new NotificationWindow(Window);
         this.notificationThread = new Thread(new Notifier());
     }
     

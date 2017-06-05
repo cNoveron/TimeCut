@@ -19,7 +19,7 @@
  */
 package net.sf.timecut.ui.swt.notifications;
 
-import net.sf.timecut.ui.swt.SWTMainWindow;
+import net.sf.timecut.ui.swt.SWTWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -39,8 +39,8 @@ public class NotificationWindow {
     private String message;
     private static Color backgroundColor;
 
-    public NotificationWindow (SWTMainWindow mainWindow) {
-        this.display = mainWindow.getShell().getDisplay();
+    public NotificationWindow (SWTWindow Window) {
+        this.display = Window.getShell().getDisplay();
         backgroundColor = new Color(this.display, 255,255,200);
     }
     

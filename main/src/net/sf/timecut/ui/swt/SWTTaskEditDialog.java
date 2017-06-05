@@ -26,13 +26,13 @@ import net.sf.timecut.model.ProjectTreeItem.ItemType;
 
 public class SWTTaskEditDialog extends ProjectItemEditDialog {
     
-	public SWTTaskEditDialog(SWTMainWindow parent, Task task) {
+	public SWTTaskEditDialog(SWTWindow parent, Task task) {
 		super(parent, task);
 		_task = task;
 	}
     
     
-    public SWTTaskEditDialog(SWTMainWindow parent) {
+    public SWTTaskEditDialog(SWTWindow parent) {
         super(parent, ItemType.TASK);
     }
 	

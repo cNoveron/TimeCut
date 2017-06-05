@@ -50,7 +50,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
     private Text createdText;
     private Text closedText;
     private Text deadlineText;
-    private SWTMainWindow mainWindow;
+    private SWTWindow mainWindow;
     private ProjectTreeItem item;
     private ProjectTreeItem.ItemType itemType;
     private TimeTracker appInstance;
@@ -61,7 +61,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
      * @param mainWindow    The main application window.
      * @param itemType      The item type as specified in <code>ProjectTreeItem</code>.
      */
-    public ProjectItemEditDialog(SWTMainWindow mainWindow, ProjectTreeItem.ItemType itemType) {
+    public ProjectItemEditDialog(SWTWindow mainWindow, ProjectTreeItem.ItemType itemType) {
         super(mainWindow.getShell(), true);
         this.mainWindow = mainWindow;
         this.item = null;
@@ -75,7 +75,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
      * @param mainWindow    The main application window.
      * @param item          The item to be edited (must not be null!)
      */
-    public ProjectItemEditDialog(SWTMainWindow mainWindow, ProjectTreeItem item) {
+    public ProjectItemEditDialog(SWTWindow mainWindow, ProjectTreeItem item) {
         super(mainWindow.getShell(), true);
         this.mainWindow = mainWindow;
         this.item = item;
@@ -88,7 +88,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
         return this.nameText.getText();
     }
 
-    public SWTMainWindow getMainWindow() {
+    public SWTWindow getMainWindow() {
         return this.mainWindow;
     }
     

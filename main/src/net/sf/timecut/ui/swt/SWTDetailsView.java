@@ -14,14 +14,14 @@ import org.eclipse.swt.widgets.Text;
 
 public class SWTDetailsView {
 	
-	public SWTDetailsView(SWTMainWindow mainWindow) {
-		_mainWindow = mainWindow;
+	public SWTDetailsView(SWTWindow Window) {
+		_Window = Window;
 		setup();
 	}
 	
 	
 	private void setup() {
-        TabItem detailsTab = new TabItem(_mainWindow.getMainTabFolder()
+        TabItem detailsTab = new TabItem(_Window.getMainTabFolder()
                 .getTabs(), SWT.BORDER);
         detailsTab.setText(ResourceHelper.getString("tab.notes"));
         _descriptionText = new Text(detailsTab.getParent(), 
@@ -63,7 +63,7 @@ public class SWTDetailsView {
 	}
 	
 	
-	private SWTMainWindow _mainWindow = null;
+	private SWTWindow _Window = null;
 	private DescriptionHolder _holder = null;
 	private Text _descriptionText = null;
 

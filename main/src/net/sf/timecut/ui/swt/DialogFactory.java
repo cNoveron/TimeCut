@@ -29,7 +29,7 @@ import net.sf.timecut.model.Workspace;
 
 public class DialogFactory {
 
-    public static SWTDialog createPropertyDialog(SWTMainWindow mainWindow,
+    public static SWTDialog createPropertyDialog(SWTWindow mainWindow,
         ProjectTreeItem item) {
         switch (item.getItemType()) {
         case WORKSPACE:

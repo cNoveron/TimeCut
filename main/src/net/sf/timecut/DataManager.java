@@ -8,6 +8,7 @@ import net.sf.timecut.conf.AppPreferences;
 import net.sf.timecut.conf.ConfigurationManager;
 import net.sf.timecut.export.CSVExporter;
 import net.sf.timecut.io.AutosaveManager;
+import net.sf.timecut.io.AutosaveManagerListener;
 import net.sf.timecut.io.FileLockManager;
 import net.sf.timecut.io.WorkspaceReader;
 import net.sf.timecut.io.WorkspaceXMLWriter;
@@ -54,7 +55,7 @@ public class DataManager implements WorkspaceListener {
     	_uiManager = new SWTUIAdminManager();
         _confManager = new AdminConfigurationManager(this);
         this.autosaveManager = new AutosaveManager();
-        this.autosaveManager.addListener((SWTUIManager)_uiManager);
+        this.autosaveManager.addListener((SWTUIAdminManager)_uiManager);
         _activeInstance = this;
         resetWorkspace();
         _uiManager.initUI();
@@ -104,19 +105,19 @@ public class DataManager implements WorkspaceListener {
 
 
     public static void main(String[] args) {        
-        TimeTracker timeTracker = new TimeTracker();
-        timeTracker.loadConfiguration();        
+        DataManager dataManager = new DataManager();
+        dataManager.loadConfiguration();        
         if (args.length > 0) {
             File cmdlineFile = new File(args[0]);
-            timeTracker.loadWorkspace(cmdlineFile);
+            dataManager.loadWorkspace(cmdlineFile);
         }
         else {
-            timeTracker.resetWorkspace();
-            if (timeTracker.getAppPreferences().isAutoOpenRecentFile()) {
-                timeTracker.openRecentFile();
+            dataManager.resetWorkspace();
+            if (dataManager.getAppPreferences().isAutoOpenRecentFile()) {
+                dataManager.openRecentFile();
             }
         }  
-        timeTracker.startUI();
+        dataManager.startUI();
     }
 
     public void selectObject(Object object) {

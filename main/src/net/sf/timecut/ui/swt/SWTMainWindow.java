@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.*;
 
 import java.io.File;
 
-public class SWTMainWindow {
+public class SWTMainWindow implements SWTWindow {
 
     private Shell               _shell;
     private SWTProjectTreeView  _projTreeView;

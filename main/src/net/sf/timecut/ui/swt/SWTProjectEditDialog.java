@@ -28,13 +28,13 @@ import net.sf.timecut.model.ProjectTreeItem.ItemType;
 public class SWTProjectEditDialog extends ProjectItemEditDialog {
     
 
-	public SWTProjectEditDialog(SWTMainWindow parent, Project project) {
-		super(parent, project);
-		_project = project;
-	}
+    public SWTProjectEditDialog(SWTWindow parent, Project project) {
+            super(parent, project);
+            _project = project;
+    }
 
     
-    public SWTProjectEditDialog(SWTMainWindow parent) {
+    public SWTProjectEditDialog(SWTWindow parent) {
         super(parent, ItemType.PROJECT);
     }
     

@@ -47,7 +47,7 @@ public class SWTStatusLine implements WorkspaceListener {
     private Label         _selectionLabel = null;
     private Label         _idleLabel      = null;
     private CurrTimeClock _clock          = new CurrTimeClock();
-    private SWTMainWindow _mainWindow     = null;
+    private SWTWindow _Window     = null;
     private long          _idleDuration   = 0;
     private Label _hyperlinkIndicator;
     private Label _hyperlinkLabel;
@@ -55,14 +55,14 @@ public class SWTStatusLine implements WorkspaceListener {
     private Label _notesLabel;
     private Image _notesImage;
 
-    public SWTStatusLine(SWTMainWindow mainWindow) {
-        _mainWindow = mainWindow;
+    public SWTStatusLine(SWTWindow Window) {
+        _Window = Window;
         GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL);
         gridData.horizontalSpan = 2;
         GridLayout grid = new GridLayout();
         grid.numColumns = 10;
         grid.makeColumnsEqualWidth = false;
-        Composite statusComposite = new Composite(mainWindow.getShell(), SWT.BORDER);
+        Composite statusComposite = new Composite(Window.getShell(), SWT.BORDER);
         statusComposite.setLayout(grid);
         statusComposite.setLayoutData(gridData);
         _selectionLabel = createLabel(statusComposite, -1, 200, true, SWT.LEFT);
@@ -75,7 +75,7 @@ public class SWTStatusLine implements WorkspaceListener {
         _idleLabel = createLabel(statusComposite, 100, 100, true, SWT.CENTER);
         createSeparator(statusComposite);
         _currTimeLabel = createLabel(statusComposite, -1, 180, true, SWT.RIGHT);
-        IconSet iconSet = _mainWindow.getIconSet();
+        IconSet iconSet = _Window.getIconSet();
         _hyperlinkImage = iconSet.getIcon("link", true);
         _notesImage = iconSet.getIcon("notes", true);
     }
@@ -172,8 +172,8 @@ public class SWTStatusLine implements WorkspaceListener {
          * Runs in an endless loop showing the current time.
          */
         public void run() {
-            if (!_mainWindow.getShell().isDisposed()) {
-                Display display = _mainWindow.getShell().getDisplay();
+            if (!_Window.getShell().isDisposed()) {
+                Display display = _Window.getShell().getDisplay();
                 display.asyncExec(new Runnable() {
                     public void run() {
                         if (!_currTimeLabel.isDisposed()) {
@@ -198,8 +198,8 @@ public class SWTStatusLine implements WorkspaceListener {
 
     public void setIdleTime(long duration) {
         _idleDuration = duration;
-        if (!_mainWindow.getShell().isDisposed()) {
-            Display display = _mainWindow.getShell().getDisplay();
+        if (!_Window.getShell().isDisposed()) {
+            Display display = _Window.getShell().getDisplay();
             display.asyncExec(new Runnable() {
                 public void run() {
                     SWTStatusLine.this._idleLabel.setText(

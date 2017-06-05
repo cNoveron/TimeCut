@@ -33,11 +33,11 @@ public class IdleTaskEditDialog extends SWTTaskEditDialog {
     private Text noteText;
     private IdleTask idleTask;
     
-    public IdleTaskEditDialog(SWTMainWindow parent) {
+    public IdleTaskEditDialog(SWTWindow parent) {
         super(parent);
     }
 
-    public IdleTaskEditDialog(SWTMainWindow parent, IdleTask task) {
+    public IdleTaskEditDialog(SWTWindow parent, IdleTask task) {
         super(parent, task);
         this.idleTask = task;
     }

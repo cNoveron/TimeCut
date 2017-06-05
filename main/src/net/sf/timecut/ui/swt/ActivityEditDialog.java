@@ -28,12 +28,12 @@ public class ActivityEditDialog extends ProjectItemEditDialog {
     
     private Activity activity; 
     
-	public ActivityEditDialog(SWTMainWindow parent, Activity activity) {
+	public ActivityEditDialog(SWTWindow parent, Activity activity) {
 		super(parent, activity);
 		this.activity = activity;
 	}
     
-    public ActivityEditDialog(SWTMainWindow parent) {
+    public ActivityEditDialog(SWTWindow parent) {
         super(parent, ItemType.ACTIVITY);
     }
 	

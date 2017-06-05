@@ -34,27 +34,28 @@ import org.eclipse.swt.widgets.TabItem;
  */
 public class SWTMainTabFolder {
 
-	public SWTMainTabFolder(SWTMainWindow mainWindow) {
-		_mainWindow = mainWindow;
-        this.appPrefs = AppPreferences.getInstance();
-		setup();
+	public SWTMainTabFolder(SWTWindow Window) {
+            _Window = Window;
+            this.appPrefs = AppPreferences.getInstance();
+            setup();
 	}
 	
 	
 	private void setup() {
-		tabs = new TabFolder(_mainWindow.getMainTabFolderSash(), SWT.NONE);
-        this.tabs.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected(SelectionEvent e) {
-                TabItem[] selected = tabs.getSelection();
-                if (selected != null && selected.length > 0) {
-                    int index = getTabIndex(selected[0].getText());
-                    appPrefs.setSelectedTab(index);
+            tabs = new TabFolder(_Window.getMainTabFolderSash(), SWT.NONE);
+            this.tabs.addSelectionListener(new SelectionAdapter(){
+                public void widgetSelected(SelectionEvent e) {
+                    TabItem[] selected = tabs.getSelection();
+                    if (selected != null && selected.length > 0) {
+                        int index = getTabIndex(selected[0].getText());
+                        appPrefs.setSelectedTab(index);
+                    }
                 }
-            }});
+            });
 	}
 	
 	public TabFolder getTabs() {
-		return tabs;
+            return tabs;
 	}
 	
     
@@ -76,7 +77,7 @@ public class SWTMainTabFolder {
         return -1;
     }
 	
-	private TabFolder tabs;
-	private SWTMainWindow _mainWindow = null;
+    private TabFolder tabs;
+    private SWTWindow _Window = null;
     private AppPreferences appPrefs;
 }

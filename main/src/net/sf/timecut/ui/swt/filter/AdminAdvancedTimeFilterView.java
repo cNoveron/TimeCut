@@ -15,7 +15,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  * 
- * $Id: AdvancedTimeFilterView.java,v 1.5 2010/09/26 12:13:31 dyadix Exp $
+ * $Id: AdminAdvancedTimeFilterView.java,v 1.5 2010/09/26 12:13:31 dyadix Exp $
  */
 package net.sf.timecut.ui.swt.filter;
 
@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
 import net.sf.timecut.ResourceHelper;
-import net.sf.timecut.TimeTracker;
+import net.sf.timecut.DataManager;
 import net.sf.timecut.model.CustomFilterList;
 import net.sf.timecut.model.TimeRecordFilter;
 import net.sf.timecut.model.TimeRecordFilterFactory;
@@ -40,16 +40,16 @@ import net.sf.timecut.ui.swt.SWTWindow;
 /**
  * Replaces SWTTimeFilterView. Allows to add custom filters.
  */
-public class AdvancedTimeFilterView implements TimeFilterView {
+public class AdminAdvancedTimeFilterView implements TimeFilterView {
     
-    private TimeTracker              tracker;
+    private DataManager              _dataManager;
     private List                     filterList;
     private SWTWindow            Window;
     private HashMap<Integer, String> indexToLabel = new HashMap<Integer, String>();
     private TimeFilterToolbar        toolbar;
     
-    public AdvancedTimeFilterView(SWTWindow Window) {
-        this.tracker = TimeTracker.getInstance();
+    public AdminAdvancedTimeFilterView(SWTWindow Window) {
+        this._dataManager = DataManager.getInstance();
         this.Window = Window;
         setup();
     }
@@ -77,7 +77,7 @@ public class AdvancedTimeFilterView implements TimeFilterView {
         this.filterList.addSelectionListener(new SelectionAdapter() {
 
             public void widgetSelected(SelectionEvent evt) {
-                tracker.getWorkspace().setFilter(getSelectedFilter());                
+                _dataManager.getWorkspace().setFilter(getSelectedFilter());                
             }
         });
         return this.filterList;
@@ -93,7 +93,7 @@ public class AdvancedTimeFilterView implements TimeFilterView {
         // Add built-in filters
         //
         String[] filterLabels = TimeRecordFilterFactory.getFilterLabels();
-        TimeRecordFilter defaultFilter = this.tracker.getWorkspace().getFilter();
+        TimeRecordFilter defaultFilter = this._dataManager.getWorkspace().getFilter();
         for (int i = 0; i < filterLabels.length; i ++) {
             String filterName = ResourceHelper.getString("filter." + filterLabels[i]);
             this.indexToLabel.put(new Integer(i), filterLabels[i]);            
@@ -105,7 +105,7 @@ public class AdvancedTimeFilterView implements TimeFilterView {
         //
         // Add custom filters (stored in the workspace)
         //
-        Workspace ws = this.tracker.getWorkspace();
+        Workspace ws = this._dataManager.getWorkspace();
         for (TimeRecordFilter customFilter : ws.getCustomFilters().asArray()) {
             String filterName = customFilter.getLabel();            
             this.filterList.add(filterName);
@@ -158,7 +158,7 @@ public class AdvancedTimeFilterView implements TimeFilterView {
         this.filterList.add(filter.getLabel());
         int index = this.filterList.indexOf(filter.getLabel());
         this.indexToLabel.put(new Integer(index), filter.getLabel());
-        Workspace ws = TimeTracker.getInstance().getWorkspace();
+        Workspace ws = DataManager.getInstance().getWorkspace();
         CustomFilterList customFilters = ws.getCustomFilters();
         customFilters.addFilter(filter);
         ws.setFilter(filter);
@@ -169,20 +169,20 @@ public class AdvancedTimeFilterView implements TimeFilterView {
     public void deleteSelectedFilter() {
         TimeRecordFilter filter = getSelectedFilter();
         if (filter != null && filter.isCustom()) {
-            tracker.getWorkspace().getCustomFilters().removeFilter(filter);
+            _dataManager.getWorkspace().getCustomFilters().removeFilter(filter);
             toolbar.setDeleteEnabled(false);
             updateFilterList();
         }
     }
     
     private TimeRecordFilter getSelectedFilter() {
-        Integer index = new Integer(AdvancedTimeFilterView.this.filterList.getSelectionIndex());
-        String label = AdvancedTimeFilterView.this.indexToLabel.get(index);
+        Integer index = new Integer(AdminAdvancedTimeFilterView.this.filterList.getSelectionIndex());
+        String label = AdminAdvancedTimeFilterView.this.indexToLabel.get(index);
         if (label != null) {
             toolbar.setDeleteEnabled(false);
             TimeRecordFilter filter = TimeRecordFilterFactory.createFilter(label);
             if (filter == null) {
-                CustomFilterList customFilters = TimeTracker
+                CustomFilterList customFilters = DataManager
                     .getInstance().getWorkspace().getCustomFilters();
                 filter = customFilters.getFilter(label);
                 if (filter != null) {

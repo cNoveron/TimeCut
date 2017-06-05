@@ -41,7 +41,7 @@ import net.sf.timecut.model.Task;
 import net.sf.timecut.model.TimeRecord;
 import net.sf.timecut.model.Workspace;
 import net.sf.timecut.ui.swt.SWTDialog;
-import net.sf.timecut.ui.swt.SWTMainWindow;
+import net.sf.timecut.ui.swt.SWTWindow;
 import net.sf.timecut.ui.swt.calendar.CalendarDialog;
 import net.sf.timecut.ui.swt.calendar.ICalendarDialogListener;
 import net.sf.timecut.util.Formatter;
@@ -53,7 +53,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
     private Text startTimeField;
     private Text durationField;
     private Text notesField;
-    private SWTMainWindow mainWindow;
+    private SWTWindow Window;
     private boolean isNew = true;
     private Workspace workspace = TimeTracker.getInstance().getWorkspace();
     
@@ -64,16 +64,16 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
     private final static long TIME_PRECISION_MS = 600000; // 10 minutes 
     
     
-    public TimeLogEntryEditDialog(SWTMainWindow mainWindow, Task task) {
-        super(mainWindow.getShell(), true);
-        this.mainWindow = mainWindow;
+    public TimeLogEntryEditDialog(SWTWindow Window, Task task) {
+        super(Window.getShell(), true);
+        this.Window = Window;
         this.timeRec = new TimeRecord(task, getDefaultStartTime(), 0, "");
         this.timeRec = workspace.createRecord(task, getDefaultStartTime(), 0, "", true);
     }
 
-    public TimeLogEntryEditDialog(SWTMainWindow mainWindow, TimeRecord timeRec, boolean isNew) {        
-        super(mainWindow.getShell(), true);
-        this.mainWindow = mainWindow;
+    public TimeLogEntryEditDialog(SWTWindow Window, TimeRecord timeRec, boolean isNew) {        
+        super(Window.getShell(), true);
+        this.Window = Window;
         this.timeRec = timeRec;
         this.isNew = isNew;
     }
@@ -172,7 +172,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         else {
             TimeTracker.getInstance().getWorkspace().updateTimeRecord(timeRec);
         }
-        //this.mainWindow.getTimeLogView().selectItem(this.timeRec);
+        //this.Window.getTimeLogView().selectItem(this.timeRec);
         return true;
     }             
     
@@ -197,7 +197,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         // Add date picker button
         //
         Button datePickerButton = new Button(dateEntryPanel, SWT.None);
-        datePickerButton.setImage(this.mainWindow.getIconSet().getIcon("calendar", true));
+        datePickerButton.setImage(this.Window.getIconSet().getIcon("calendar", true));
         datePickerButton.addSelectionListener(new SelectionAdapter() {
 
             public void widgetSelected(SelectionEvent evt) {
@@ -231,7 +231,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         // Add increment button
         //
         Button incButton = new Button(durationPanel, SWT.None);
-        incButton.setImage(this.mainWindow.getIconSet().getIcon("increase", true));
+        incButton.setImage(this.Window.getIconSet().getIcon("increase", true));
         incButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 incrementDecrementDuration(+1);
@@ -241,7 +241,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         // Add decrement button
         //
         Button decButton = new Button(durationPanel, SWT.None);
-        decButton.setImage(this.mainWindow.getIconSet().getIcon("decrease", true));
+        decButton.setImage(this.Window.getIconSet().getIcon("decrease", true));
         decButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 incrementDecrementDuration(-1);
@@ -271,7 +271,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         // Add increment button
         //
         Button incButton = new Button(startTimePanel, SWT.None);
-        incButton.setImage(this.mainWindow.getIconSet().getIcon(
+        incButton.setImage(this.Window.getIconSet().getIcon(
             "increase",
             true));
         incButton.addSelectionListener(new SelectionAdapter() {
@@ -283,7 +283,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         // Add decrement button
         //
         Button decButton = new Button(startTimePanel, SWT.None);
-        decButton.setImage(this.mainWindow.getIconSet().getIcon(
+        decButton.setImage(this.Window.getIconSet().getIcon(
             "decrease",
             true));
         decButton.addSelectionListener(new SelectionAdapter() {

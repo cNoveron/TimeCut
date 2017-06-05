@@ -39,7 +39,7 @@ import net.sf.timecut.ResourceHelper;
 import net.sf.timecut.model.TimeRecordFilter;
 import net.sf.timecut.model.TimeRecordFilterFactory;
 import net.sf.timecut.ui.swt.SWTDialog;
-import net.sf.timecut.ui.swt.SWTMainWindow;
+import net.sf.timecut.ui.swt.SWTWindow;
 import net.sf.timecut.ui.swt.calendar.CalendarDialog;
 import net.sf.timecut.ui.swt.calendar.ICalendarDialogListener;
 import net.sf.timecut.util.Formatter;
@@ -47,16 +47,16 @@ import net.sf.timecut.util.Formatter;
 public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListener {
     
     private Text filterNameField;
-    private AdvancedTimeFilterView filterView;
-    private SWTMainWindow mainWindow;
+    private TimeFilterView filterView;
+    private SWTWindow Window;
     private Text startDateField;
     private Text endDateField;
     private static FilterSetupDialog instance;
     
-    private FilterSetupDialog(AdvancedTimeFilterView filterView) {
-        super(filterView.getMainWindow().getShell(), false);
+    private FilterSetupDialog(TimeFilterView filterView) {
+        super(filterView.getWindow().getShell(), false);
         this.filterView = filterView;
-        this.mainWindow = this.filterView.getMainWindow();
+        this.Window = this.filterView.getWindow();
     }
 
 
@@ -88,7 +88,7 @@ public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListe
         return ResourceHelper.getString("filter.dialog.title");
     }
 
-    public static FilterSetupDialog getInstance(AdvancedTimeFilterView filterView) {
+    public static FilterSetupDialog getInstance(TimeFilterView filterView) {
         if (instance == null) {
             instance = new FilterSetupDialog(filterView);
         }

@@ -9,12 +9,8 @@ import net.sf.timecut.ui.GenericUIManager;
  * @author rvishnyakov
  */
 public interface WorkspaceListener {
-
-    void workspaceChanged(WorkspaceEvent we);
-    
-    void addRecentlyOpenFile(File file);
-    
-    File[] getRecentlyOpenFiles();
-    
+    void workspaceChanged(WorkspaceEvent we);    
+    void addRecentlyOpenFile(File file);    
+    File[] getRecentlyOpenFiles();    
     GenericUIManager getUIManager();
 }

@@ -44,13 +44,13 @@ public class SWTMainToolBar extends ToolBarBase {
 	private ToolItem _startButton;
     private ToolItem _showFlaggedButton;
     private ToolItem _timeSheetButton;
-	private SWTMainWindow _mainWindow;
+	private SWTWindow _Window;
 	
 	protected static final Project TimeSheetDialog = null;
 
-    public SWTMainToolBar(SWTMainWindow window) {
+    public SWTMainToolBar(SWTWindow window) {
         super(window.getShell(), window.getIconSet(), 1);
-		_mainWindow = window;
+		_Window = window;
 	}
 
     @Override
@@ -118,7 +118,7 @@ public class SWTMainToolBar extends ToolBarBase {
         _showFlaggedButton = createButton("tasklist", SWT.PUSH);
         _showFlaggedButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                TaskListView taskListView = new TaskListView(_mainWindow);
+                TaskListView taskListView = new TaskListView(_Window);
                 taskListView.open();
             }
         });
@@ -132,7 +132,7 @@ public class SWTMainToolBar extends ToolBarBase {
                 ProjectTreeItem selection = TimeTracker.getInstance()
                     .getWorkspace().getSelection();
                 if (selection != null && selection instanceof Project) {
-                    TimeSheetHelper tsh = new TimeSheetHelper(_mainWindow
+                    TimeSheetHelper tsh = new TimeSheetHelper(_Window
                         .getShell(), (Project) selection);
                     tsh.openTimeSheet();
                 }
@@ -146,7 +146,7 @@ public class SWTMainToolBar extends ToolBarBase {
         ToolItem findButton = createButton("find", SWT.PUSH);
         findButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                FindDialog findDialog = new FindDialog(_mainWindow, TimeTracker.getInstance().getWorkspace());
+                FindDialog findDialog = new FindDialog(_Window, TimeTracker.getInstance().getWorkspace());
                 findDialog.open();
             }
         });

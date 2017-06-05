@@ -15,7 +15,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * $Id: SWTTimeLogTableView.java,v 1.26 2011/01/20 15:02:22 dyadix Exp $
+ * $Id: SWTAdminDataView.java,v 1.26 2011/01/20 15:02:22 dyadix Exp $
  */
 package net.sf.timecut.ui.swt;
 
@@ -31,7 +31,7 @@ import net.sf.timecut.model.TimeRecordFilter;
 import net.sf.timecut.model.TimeUtil;
 import net.sf.timecut.model.ProjectTreeItem.ItemType;
 import net.sf.timecut.ui.swt.timelog.TimeLogEntryEditDialog;
-import net.sf.timecut.ui.swt.timelog.TimeLogToolBar;
+import net.sf.timecut.ui.swt.timelog.AdminDataViewToolBar;
 import net.sf.timecut.util.Formatter;
 
 import org.eclipse.swt.SWT;
@@ -56,14 +56,14 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-public class SWTTimeLogTableView {
+public class SWTAdminDataView {
 
     private final static String[] titles   = { "", "table.project", "table.task", "table.startDate", "table.startTime",
         "table.duration", "table.notes"   };
     private final static int[]    align    = { SWT.LEFT, SWT.LEFT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT,
         SWT.LEFT                          };
 
-    private TimeLogToolBar toolBar;
+    private AdminDataViewToolBar toolBar;
     private Composite contentArea;
     private AppPreferences appPrefs;
 
@@ -73,19 +73,19 @@ public class SWTTimeLogTableView {
     private final Image idleImage;
 
 
-    public SWTTimeLogTableView(SWTMainWindow mainWindow) {
-        _mainWindow = mainWindow;
+    public SWTAdminDataView(SWTAdminWindow AdminWindow) {
+        _AdminWindow = AdminWindow;
         this.appPrefs = AppPreferences.getInstance();
         for (int i = 1; i < titles.length; i++) {
             titles[i] = ResourceHelper.getString(titles[i]);
         }
-        normalRecImage = this._mainWindow.getIconSet().getIcon(
+        normalRecImage = this._AdminWindow.getIconSet().getIcon(
             "record-normal",
             true);
-        partialRecImage = this._mainWindow.getIconSet().getIcon(
+        partialRecImage = this._AdminWindow.getIconSet().getIcon(
             "record-partial",
             true);
-        idleImage = this._mainWindow.getIconSet().getIcon(
+        idleImage = this._AdminWindow.getIconSet().getIcon(
             "idle",
             true);
         setup();
@@ -93,12 +93,12 @@ public class SWTTimeLogTableView {
 
 
     private void setup() {
-        this.timeLogTab = new TabItem(_mainWindow.getMainTabFolder()
+        this.timeLogTab = new TabItem(_AdminWindow.getMainTabFolder()
             .getTabs(), SWT.BORDER);
         this.timeLogTab.setText(ResourceHelper.getString("tab.journal"));
         GridData hd = new GridData(GridData.FILL_HORIZONTAL);
 
-        contentArea = new Composite(_mainWindow.getMainTabFolder().getTabs(), SWT.NONE);
+        contentArea = new Composite(_AdminWindow.getMainTabFolder().getTabs(), SWT.NONE);
         contentArea.setLayoutData(hd);
         GridLayout areaLayout = new GridLayout();
         areaLayout.numColumns = 1;
@@ -107,7 +107,7 @@ public class SWTTimeLogTableView {
         contentArea.setLayout(areaLayout);
         this.timeLogTab.setControl(contentArea);
 
-        this.toolBar = new TimeLogToolBar(this);
+        this.toolBar = new AdminDataViewToolBar(this);
 
         GridData tableLayout = new GridData(GridData.FILL_BOTH);
         tableLayout.grabExcessVerticalSpace = true;
@@ -123,7 +123,7 @@ public class SWTTimeLogTableView {
                         copySelectionToClipboard();
                     }
                     else if (evt.keyCode == 'a' || evt.keyCode == 'A') {
-                        SWTTimeLogTableView.this._table.selectAll();
+                        SWTAdminDataView.this._table.selectAll();
                     }
                     else if (evt.keyCode == 'j' || evt.keyCode == 'J') {
                         joinSelected();
@@ -182,34 +182,34 @@ public class SWTTimeLogTableView {
         _table.setMenu(_popup);
         MenuItem copyItem = new MenuItem(_popup, SWT.CASCADE);
         copyItem.setText(ResourceHelper.getString("menu.copy") + "\tCtrl+C");
-        copyItem.setImage(_mainWindow.getIconSet().getIcon("copy", true));
+        copyItem.setImage(_AdminWindow.getIconSet().getIcon("copy", true));
         copyItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                SWTTimeLogTableView.this.copySelectionToClipboard();
+                SWTAdminDataView.this.copySelectionToClipboard();
             }
         });
         MenuItem editItem = new MenuItem(_popup, SWT.CASCADE);
         editItem.setText(ResourceHelper.getString("menu.edit") + "\tAlt+Enter");
-        editItem.setImage(_mainWindow.getIconSet().getIcon("edit", true));
+        editItem.setImage(_AdminWindow.getIconSet().getIcon("edit", true));
         editItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                SWTTimeLogTableView.this.editSelection();
+                SWTAdminDataView.this.editSelection();
             }
         });
         MenuItem deleteItem = new MenuItem(_popup, SWT.CASCADE);
         deleteItem.setText(ResourceHelper.getString("menu.delete") + "\tDel");
-        deleteItem.setImage(_mainWindow.getIconSet().getIcon("delete", true));
+        deleteItem.setImage(_AdminWindow.getIconSet().getIcon("delete", true));
         deleteItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                SWTTimeLogTableView.this.removeSelected();
+                SWTAdminDataView.this.removeSelected();
             }
         });
         MenuItem joinItem = new MenuItem(_popup, SWT.CASCADE);
         joinItem.setText(ResourceHelper.getString("menu.join") + "\tCtrl+J");
-        joinItem.setImage(_mainWindow.getIconSet().getIcon("joinRecords", true));
+        joinItem.setImage(_AdminWindow.getIconSet().getIcon("joinRecords", true));
         joinItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                SWTTimeLogTableView.this.joinSelected();
+                SWTAdminDataView.this.joinSelected();
             }
         });
         new MenuItem(_popup, SWT.SEPARATOR);
@@ -217,7 +217,7 @@ public class SWTTimeLogTableView {
         selectAllItem.setText(ResourceHelper.getString("menu.selectAll") + "\tCtrl+A");
         selectAllItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                SWTTimeLogTableView.this._table.selectAll();
+                SWTAdminDataView.this._table.selectAll();
             }
         });
     }
@@ -310,7 +310,7 @@ public class SWTTimeLogTableView {
         if (items == null || items.length == 0) {
             return;
         }
-        Clipboard clipboard = new Clipboard(_mainWindow.getShell().getDisplay());
+        Clipboard clipboard = new Clipboard(_AdminWindow.getShell().getDisplay());
         TextTransfer textTransfer = TextTransfer.getInstance();
         Transfer[] transfers = new Transfer[] { textTransfer };
         StringBuffer buf = new StringBuffer();
@@ -342,7 +342,7 @@ public class SWTTimeLogTableView {
             return;
         TimeRecord timeRec = (TimeRecord) items[0].getData();
         TimeLogEntryEditDialog editDialog = new TimeLogEntryEditDialog(
-            _mainWindow, timeRec, false);
+            _AdminWindow, timeRec, false);
         editDialog.open();
     }
 
@@ -350,7 +350,7 @@ public class SWTTimeLogTableView {
         ProjectTreeItem selection = TimeTracker.getInstance().getWorkspace().getSelection();
         if (selection != null && selection instanceof Task) {
             TimeLogEntryEditDialog editDialog = new TimeLogEntryEditDialog(
-                _mainWindow, (Task)selection);
+                _AdminWindow, (Task)selection);
             editDialog.open();
         }
     }
@@ -377,12 +377,12 @@ public class SWTTimeLogTableView {
                 projectPath = proj.getName() + " -> " + projectPath;
             }
         }
-
-        item.setText(1, projectPath);
-        item.setText(2, filteredRec.getTask().toString());
-        item.setText(3, Formatter.toDateString(filteredRec.getStart()));
-        item.setText(4, Formatter.toTimeString(filteredRec.getStart()));
-        item.setText(5, filteredRec.getDuration().toString());
+        
+        item.setText(1, projectPath+"madafaka");
+        item.setText(2, filteredRec.getTask().toString()+"madafaka");
+        item.setText(3, Formatter.toDateString(filteredRec.getStart())+"madafaka");
+        item.setText(4, Formatter.toTimeString(filteredRec.getStart())+"madafaka");
+        item.setText(5, filteredRec.getDuration().toString()+"madafaka");
         String notes = timeRec.getNotes();
         if (notes == null)
             notes = "";
@@ -391,8 +391,8 @@ public class SWTTimeLogTableView {
     }
 
 
-    public SWTMainWindow getMainWindow() {
-        return this._mainWindow;
+    public SWTAdminWindow getMainWindow() {
+        return this._AdminWindow;
     }
 
     public Table getTable() {
@@ -484,7 +484,7 @@ public class SWTTimeLogTableView {
     }
 
     public boolean confirm(String msg) {
-        MessageBox m = new MessageBox(_mainWindow.getShell(), SWT.ICON_QUESTION | SWT.NO
+        MessageBox m = new MessageBox(_AdminWindow.getShell(), SWT.ICON_QUESTION | SWT.NO
             | SWT.YES);
 
         m.setMessage(msg);
@@ -498,7 +498,7 @@ public class SWTTimeLogTableView {
         this.timeLogTab.getParent().setSelection(this.timeLogTab);
     }
 
-    private SWTMainWindow _mainWindow;
+    private SWTAdminWindow _AdminWindow;
     private Table         _table;
     private Menu          _popup;
     private TabItem       timeLogTab;

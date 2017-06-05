@@ -21,7 +21,7 @@ package net.sf.timecut.ui.swt;
 
 import net.sf.timecut.AppInfo;
 import net.sf.timecut.ResourceHelper;
-import net.sf.timecut.TimeTracker;
+import net.sf.timecut.DataManager;
 import net.sf.timecut.conf.AppPreferences;
 import net.sf.timecut.model.Activity;
 import net.sf.timecut.model.Task;
@@ -40,14 +40,15 @@ import org.eclipse.swt.widgets.*;
 
 import java.io.File;
 
-public class SWTAdminWindow extends SWTMainWindow {
+public class SWTAdminWindow implements SWTWindow {
 
     private Shell               _shell;
-    private SWTProjectTreeView  _projTreeView;
+    private SWTAdminProjectTreeView _projTreeView;
     private SashForm            _treeTabSash;
     private SWTMainTabFolder    _mainTabFolder;
-    private SWTMainMenu         _mainMenu;
+    private SWTAdminMainMenu         _mainMenu;
     private SWTTimeLogTableView _timeLogView;
+    private SWTAdminDataView    _adminDataView;
     private SWTMainToolBar      _mainToolBar;
     private SWTTotalsTableView  _totalsTableView;
     //private SashForm            _treeFilterSash;
@@ -61,8 +62,12 @@ public class SWTAdminWindow extends SWTMainWindow {
     private NotificationManager _notificationManager;
     private FontResource        _lcdFontResource;
 
-    public SWTAdminWindow(SWTUIManager uiManager) {
-        super(uiManager);
+    public SWTAdminWindow(SWTUIAdminManager uiManager) {
+        _shell = new Shell(uiManager.getDisplay());
+        _menuFactory = new MenuFactory(this);
+        _notificationManager = new NotificationManager(this);
+        setup();
+        addToTray();
     }
 
 
@@ -88,7 +93,7 @@ public class SWTAdminWindow extends SWTMainWindow {
         m.setMessage(ResourceHelper.getString("message.saveChanges"));
         int result = m.open();
         if (result == SWT.YES) {
-            TimeTracker.getInstance().saveWorkspace(true);
+            DataManager.getInstance().saveWorkspace(true);
         }
         return (result == SWT.YES || result == SWT.NO);
     }
@@ -106,9 +111,9 @@ public class SWTAdminWindow extends SWTMainWindow {
 
     private void setup() {
         this.updateTitle();
-        SWTUIManager.setTimeCultWindowIcons(_shell);
+        SWTUIAdminManager.setTimeCultWindowIcons(_shell);
 
-        _mainMenu = new SWTMainMenu(this);
+        _mainMenu = new SWTAdminMainMenu(this);
         _mainToolBar = new SWTMainToolBar(this);
 
         GridLayout gridLayout = new GridLayout();
@@ -137,12 +142,12 @@ public class SWTAdminWindow extends SWTMainWindow {
             }
         });
 
-        _projTreeView = new SWTProjectTreeView(this);
+        _projTreeView = new SWTAdminProjectTreeView(this);
         _mainTabFolder = new SWTMainTabFolder(this);
         _filterView = new AdvancedTimeFilterView(this);
 
         _statusLine = new SWTStatusLine(this);
-        _timeLogView = new SWTTimeLogTableView(this);
+        _adminDataView = new SWTAdminDataView(this);
         _totalsTableView = new SWTTotalsTableView(this);
         _detailsView = new SWTDetailsView(this);
 
@@ -156,7 +161,7 @@ public class SWTAdminWindow extends SWTMainWindow {
         _shell.addListener(SWT.Close, new Listener() {
             public void handleEvent(Event evt) {
                 _trayItem.dispose();
-                TimeTracker.getInstance().exit();
+                DataManager.getInstance().exit();
             }
         });
         //
@@ -164,7 +169,7 @@ public class SWTAdminWindow extends SWTMainWindow {
         //
         _shell.addListener(SWT.Iconify, new Listener() {
             public void handleEvent(Event evt) {
-                if(TimeTracker.getInstance().getAppPreferences().isHideWhenMinimized()) {
+                if(DataManager.getInstance().getAppPreferences().isHideWhenMinimized()) {
                     _shell.setVisible(false);
                 }
             }
@@ -172,36 +177,33 @@ public class SWTAdminWindow extends SWTMainWindow {
 
     }
 
-
     public Composite getProjectTreeContainer() {
         return _treeFilterContainer;
     }
-
 
     public SashForm getMainTabFolderSash() {
         return _treeTabSash;
     }
 
-
     public SWTMainTabFolder getMainTabFolder() {
         return _mainTabFolder;
     }
 
-
-    public SWTProjectTreeView getProjectTreeView() {
+    public SWTAdminProjectTreeView getProjectTreeView() {
         return _projTreeView;
     }
 
-
-    public SWTMainMenu getMainMenu() {
+    public SWTAdminMainMenu getMainMenu() {
         return _mainMenu;
     }
-
 
     public SWTTimeLogTableView getTimeLogView() {
         return _timeLogView;
     }
 
+    public SWTAdminDataView getAdminDataView() {
+        return _adminDataView;
+    }
 
     public SWTMainToolBar getMainToolBar() {
         return _mainToolBar;
@@ -238,7 +240,7 @@ public class SWTAdminWindow extends SWTMainWindow {
 
     public String getTitleString() {
         StringBuilder titleBuf = new StringBuilder();
-        Workspace ws = TimeTracker.getInstance().getWorkspace();
+        Workspace ws = DataManager.getInstance().getWorkspace();
         if (ws != null) {
             titleBuf.append(ws.toString());
             titleBuf.append(" - ");
@@ -269,7 +271,6 @@ public class SWTAdminWindow extends SWTMainWindow {
         this._mainTabFolder.selectTab(appPrefs.getSelectedTab());
     }
 
-
     private void addToTray() {
         Tray tray = _shell.getDisplay().getSystemTray();
         _trayItem = new TrayItem(tray, SWT.NONE);
@@ -287,17 +288,14 @@ public class SWTAdminWindow extends SWTMainWindow {
         _trayItem.setToolTipText(getTitleString());
     }
 
-
-    public Menu createInProgressStartMenu(MenuItem parentItem,
-        SelectionListener l) {
+    public Menu createInProgressStartMenu(MenuItem parentItem, SelectionListener l) {
         Menu startMenu = new Menu(parentItem);
-        Task[] tasks = TimeTracker.getInstance().getRecentTasks(7);
+        Task[] tasks = DataManager.getInstance().getRecentTasks(7);
         for (Task task : tasks) {
             addTaskItem(startMenu, task, l);
         }
         return startMenu;
     }
-
 
     private void addTaskItem(Menu startMenu, Task task, SelectionListener l) {
         String iconName = task instanceof Activity ? "activity" : "inProgress";

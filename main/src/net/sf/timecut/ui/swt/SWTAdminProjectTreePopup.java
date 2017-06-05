@@ -15,7 +15,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  * 
- * $Id: SWTProjectTreePopup.java,v 1.22 2009/11/21 13:56:17 dyadix Exp $
+ * $Id: SWTAdminProjectTreePopup.java,v 1.22 2009/11/21 13:56:17 dyadix Exp $
  */
 
 package net.sf.timecut.ui.swt;
@@ -45,9 +45,9 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 
-public class SWTProjectTreePopup implements WorkspaceListener {
+public class SWTAdminProjectTreePopup implements WorkspaceListener {
 
-    private SWTProjectTreeView _treeView;
+    private SWTAdminProjectTreeView _treeView;
     private Menu _popup;
     private MenuItem _deleteItem;
     private MenuItem _doneItem;
@@ -59,9 +59,9 @@ public class SWTProjectTreePopup implements WorkspaceListener {
     private MenuItem _reopenItem;
     private ProjectTreeItem _selection;
 
-	public SWTProjectTreePopup(SWTProjectTreeView projTreeView) {
-            _treeView = projTreeView;
-            setup(projTreeView.getTree());
+	public SWTAdminProjectTreePopup(SWTAdminProjectTreeView ProjectTreeView) {
+            _treeView = ProjectTreeView;
+            setup(ProjectTreeView.getTree());
 	}
 	
 	private void setup(Tree tree) {
@@ -432,8 +432,8 @@ public class SWTProjectTreePopup implements WorkspaceListener {
         otherItem.setText(ResourceHelper.getString("menu.waiting.other"));
         otherItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                ReasonDialog reasonDialog = new ReasonDialog(SWTProjectTreePopup.this);
-                reasonDialog.open();
+                AdminReasonDialog AdminReasonDialog = new AdminReasonDialog(SWTAdminProjectTreePopup.this);
+                AdminReasonDialog.open();
             }
         });
     }

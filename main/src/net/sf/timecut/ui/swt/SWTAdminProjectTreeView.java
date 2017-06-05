@@ -15,7 +15,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  * 
- * $Id: SWTProjectTreeView.java,v 1.31 2010/12/25 11:39:12 dyadix Exp $
+ * $Id: SWTAdminProjectTreeView.java,v 1.31 2010/12/25 11:39:12 dyadix Exp $
  */
 package net.sf.timecut.ui.swt;
 
@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 //import net.sf.timecult.ResourceHelper;
-import net.sf.timecut.TimeTracker;
+import net.sf.timecut.DataManager;
 import net.sf.timecut.conf.AppPreferences;
 import net.sf.timecut.conf.AppPreferencesListener;
 import net.sf.timecut.model.Activity;
@@ -55,7 +55,7 @@ import org.eclipse.swt.widgets.Tree;
 //import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
-public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
+public class SWTAdminProjectTreeView implements AppPreferencesListener,SWTTreeView {
     
     private Color normalTextColor;
     private Color disabledTextColor;
@@ -70,7 +70,7 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
 
     private Tree _tree = null;
     private SWTWindow _Window = null;
-    private SWTProjectTreePopup _popup;
+    private SWTAdminProjectTreePopup _popup;
     private HashMap<Object,TreeItem> _itemHash = new HashMap<Object,TreeItem>();
     final private Image _workspaceImage;
     final private Image _projectImage;
@@ -89,7 +89,7 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
     final private Image _closedProjectImage;
     final private Image pastDeadlineImage;
 
-	public SWTProjectTreeView(SWTWindow Window) {
+    public SWTAdminProjectTreeView(SWTWindow Window) {
         _Window = Window;
         GridData gridData = new GridData(GridData.FILL_BOTH);
         gridData.grabExcessHorizontalSpace = true;
@@ -108,8 +108,8 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
         // TreeColumn projectTaskColumn = new TreeColumn(_tree, SWT.NONE);
         // projectTaskColumn.setText(ResourceHelper.getString("table.object"));
         // projectTaskColumn.setWidth(400);
-        _popup = new SWTProjectTreePopup(this);
-        buildTree(null, TimeTracker.getInstance().getWorkspace());
+        _popup = new SWTAdminProjectTreePopup(this);
+        buildTree(null, DataManager.getInstance().getWorkspace());
         IconSet iconSet = _Window.getIconSet();
         _workspaceImage = iconSet.getIcon("workspace", true);
         _projectImage = iconSet.getIcon("project", true);
@@ -220,12 +220,12 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
 			currSelection = _tree.getSelection()[0].getData();
 		}
         else {
-            currSelection = TimeTracker.getInstance().getWorkspace();
+            currSelection = DataManager.getInstance().getWorkspace();
         }
         _tree.removeAll();
         _tree.setRedraw(false);
         _itemHash.clear();                        
-        buildTree(null, TimeTracker.getInstance().getWorkspace());        
+        buildTree(null, DataManager.getInstance().getWorkspace());        
 		if (currSelection != null) {
 			TreeItem item = this.findByData(_tree.getTopItem(), currSelection);
 			if (item != null) {
@@ -406,7 +406,7 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
 			TreeItem[] selItems = _tree.getSelection();
             if (selItems == null || selItems.length == 0) return;
 			Object selection = selItems[0].getData();
-			TimeTracker.getInstance().selectObject(selection);			
+			DataManager.getInstance().selectObject(selection);			
 		}		
 	}
 	
@@ -419,9 +419,9 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
         if (matchingItem != null) {
             _tree.setSelection(matchingItem);
             _tree.setFocus();
-            TimeTracker.getInstance().selectObject(object);
+            DataManager.getInstance().selectObject(object);
         } else {
-            TimeTracker.getInstance().selectObject(TimeTracker.getInstance().getWorkspace());
+            DataManager.getInstance().selectObject(DataManager.getInstance().getWorkspace());
         }
     }
 	
@@ -429,8 +429,8 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
 		return _itemHash.get(object);
 	}
 	
-	public SWTProjectTreePopup getPopupMenu() {
-		return _popup;
+	public SWTAdminProjectTreePopup getPopupMenu() {
+            return _popup;
 	}
     
     
@@ -467,13 +467,13 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
     }
     
     public boolean isVisible(ProjectTreeItem treeItem) {
-        if (!TimeTracker.getInstance().getAppPreferences().isHideClosed()) {
+        if (!DataManager.getInstance().getAppPreferences().isHideClosed()) {
             return true;
         }
         if (treeItem.getCloseDateTime() == null) {
             return true;
         }
-        TimeRecordFilter filter = TimeTracker.getInstance().getFilter();
+        TimeRecordFilter filter = DataManager.getInstance().getFilter();
         if (filter != null) {
             Date firstDate = filter.getSinceDate();
             Date closeDate = treeItem.getCloseDateTime();

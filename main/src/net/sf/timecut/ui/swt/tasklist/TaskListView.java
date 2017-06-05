@@ -25,7 +25,7 @@ import net.sf.timecut.model.ProjectTreeItem;
 import net.sf.timecut.model.Task;
 import net.sf.timecut.model.TaskStatus;
 import net.sf.timecut.ui.swt.SWTDialog;
-import net.sf.timecut.ui.swt.SWTMainWindow;
+import net.sf.timecut.ui.swt.SWTWindow;
 import net.sf.timecut.util.ObjectInfoHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
@@ -42,7 +42,7 @@ public class TaskListView extends SWTDialog {
     private static final String[] titleKeys = { "table.task" };
     private static final int[]    length    = { 500 };
     private static final int[]    align     = { SWT.LEFT };
-    private SWTMainWindow         mainWindow;
+    private SWTWindow             Window;
     private Table                 taskListTable;
     private TaskStatus            taskStatus = new TaskStatus(TaskStatus.IN_PROGRESS);
     private Class                 taskSubtype;
@@ -53,9 +53,9 @@ public class TaskListView extends SWTDialog {
     private static Point lastSize;
 
 
-    public TaskListView(SWTMainWindow mainWindow) {
-        super(mainWindow.getShell(), true, false, true);
-        this.mainWindow = mainWindow;
+    public TaskListView(SWTWindow Window) {
+        super(Window.getShell(), true, false, true);
+        this.Window = Window;
         this.taskSubtype = Task.class;
     }
 
@@ -184,7 +184,7 @@ public class TaskListView extends SWTDialog {
         TableItem[] items = taskListTable.getSelection();
         if (items.length > 0) {
             Task selectedTask = (Task) items[0].getData();
-            this.mainWindow.getProjectTreeView().setCurrentSelection(selectedTask);
+            this.Window.getProjectTreeView().setCurrentSelection(selectedTask);
         }
     }
 
@@ -201,8 +201,8 @@ public class TaskListView extends SWTDialog {
     }
     
     
-    public SWTMainWindow getMainWindow() {
-        return this.mainWindow;
+    public SWTWindow getWindow() {
+        return this.Window;
     }
     
     
