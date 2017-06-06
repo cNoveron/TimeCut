@@ -39,6 +39,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
 import java.io.File;
+import net.sf.timecut.ui.swt.filter.AdminAdvancedTimeFilterView;
 
 public class SWTAdminWindow implements SWTWindow {
 
@@ -57,7 +58,7 @@ public class SWTAdminWindow implements SWTWindow {
     private IconSet             _iconSet;
     private Composite           _treeFilterContainer;
     private TrayItem            _trayItem;
-    private AdvancedTimeFilterView   _filterView;
+    private AdminAdvancedTimeFilterView   _filterView;
     private MenuFactory         _menuFactory;
     private NotificationManager _notificationManager;
     private FontResource        _lcdFontResource;
@@ -144,7 +145,7 @@ public class SWTAdminWindow implements SWTWindow {
 
         _projTreeView = new SWTAdminProjectTreeView(this);
         _mainTabFolder = new SWTMainTabFolder(this);
-        _filterView = new AdvancedTimeFilterView(this);
+        _filterView = new AdminAdvancedTimeFilterView(this);
 
         _statusLine = new SWTStatusLine(this);
         _adminDataView = new SWTAdminDataView(this);
@@ -326,7 +327,7 @@ public class SWTAdminWindow implements SWTWindow {
     }
 
 
-    public AdvancedTimeFilterView getFilterView() {
+    public AdminAdvancedTimeFilterView getFilterView() {
         return _filterView;
     }
 

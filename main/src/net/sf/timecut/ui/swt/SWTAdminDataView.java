@@ -21,7 +21,7 @@ package net.sf.timecut.ui.swt;
 
 import java.util.Vector;
 import net.sf.timecut.ResourceHelper;
-import net.sf.timecut.TimeTracker;
+import net.sf.timecut.DataManager;
 import net.sf.timecut.conf.AppPreferences;
 import net.sf.timecut.model.Project;
 import net.sf.timecut.model.ProjectTreeItem;
@@ -171,7 +171,7 @@ public class SWTAdminDataView {
                 }
             });
         }
-        _filter = TimeTracker.getInstance().getFilter();
+        _filter = DataManager.getInstance().getFilter();
         updateTable();
         _table.setHeaderVisible(true);
     }
@@ -234,7 +234,7 @@ public class SWTAdminDataView {
         }
         _table.removeAll();
         combineFilters();
-        TimeTracker tracker = TimeTracker.getInstance();
+        DataManager tracker = DataManager.getInstance();
         TimeRecord[] timeRecs = tracker.getWorkspace().getTimeLog()
             .getTimeRecords(_filter);
         TableItem lastItem = null;
@@ -264,7 +264,7 @@ public class SWTAdminDataView {
     }
 
     private void combineFilters() {
-        TimeTracker tracker = TimeTracker.getInstance();
+        DataManager tracker = DataManager.getInstance();
         TimeRecordFilter timeFilter = tracker.getWorkspace().getFilter();
         TimeRecordFilter newFilter = null;
         if (timeFilter != null) {
@@ -347,7 +347,7 @@ public class SWTAdminDataView {
     }
 
     public void addNewEntry() {
-        ProjectTreeItem selection = TimeTracker.getInstance().getWorkspace().getSelection();
+        ProjectTreeItem selection = DataManager.getInstance().getWorkspace().getSelection();
         if (selection != null && selection instanceof Task) {
             TimeLogEntryEditDialog editDialog = new TimeLogEntryEditDialog(
                 _AdminWindow, (Task)selection);
@@ -357,7 +357,7 @@ public class SWTAdminDataView {
 
 
     private void setData(TableItem item, TimeRecord timeRec) {
-        TimeRecordFilter filter = TimeTracker.getInstance().getFilter();
+        TimeRecordFilter filter = DataManager.getInstance().getFilter();
         TimeRecord filteredRec = TimeUtil.getFilteredTimeRec(filter, timeRec);
         if (timeRec.getTask().getItemType() == ItemType.IDLE_TASK) {
             item.setImage(this.idleImage);
@@ -416,7 +416,7 @@ public class SWTAdminDataView {
     }
 
     public void updateOnTreeSelection(Object object) {
-        TimeRecordFilter filter = TimeTracker.getInstance().getFilter();
+        TimeRecordFilter filter = DataManager.getInstance().getFilter();
         if (filter == null) {
             _filter = new TimeRecordFilter();
         }
@@ -446,7 +446,7 @@ public class SWTAdminDataView {
                 for (int i = 0; i < selectedItems.length; i++) {
                     recs[i] = (TimeRecord) (selectedItems[i].getData());
                 }
-                TimeTracker.getInstance().getWorkspace()
+                DataManager.getInstance().getWorkspace()
                     .joinTimeRecords(recs);
             }
         }
@@ -463,7 +463,7 @@ public class SWTAdminDataView {
                 for (int i = 0; i < selectedItems.length; i++) {
                     recs[i] = (TimeRecord) (selectedItems[i].getData());
                 }
-                TimeTracker.getInstance().getWorkspace()
+                DataManager.getInstance().getWorkspace()
                     .removeTimeRecords(recs);
             }
         }
