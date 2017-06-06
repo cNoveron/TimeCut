@@ -28,7 +28,7 @@ public interface SWTWindow {
     public void restoreWindow();
     public Menu createInProgressStartMenu(MenuItem parentItem,SelectionListener l);
     public SWTMainTabFolder getMainTabFolder();
-    public SWTTimeLogTableView getTimeLogView();
+    public SWTDataView getDataView();
     public Font getLcdFont();
     public void showPopupMessage(String message);
     public SashForm getMainTabFolderSash();

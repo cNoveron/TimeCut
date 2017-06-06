@@ -47,8 +47,7 @@ public class SWTAdminWindow implements SWTWindow {
     private SWTAdminProjectTreeView _projTreeView;
     private SashForm            _treeTabSash;
     private SWTMainTabFolder    _mainTabFolder;
-    private SWTAdminMainMenu         _mainMenu;
-    private SWTTimeLogTableView _timeLogView;
+    private SWTAdminMainMenu    _mainMenu;
     private SWTAdminDataView    _adminDataView;
     private SWTMainToolBar      _mainToolBar;
     private SWTTotalsTableView  _totalsTableView;
@@ -198,11 +197,7 @@ public class SWTAdminWindow implements SWTWindow {
         return _mainMenu;
     }
 
-    public SWTTimeLogTableView getTimeLogView() {
-        return _timeLogView;
-    }
-
-    public SWTAdminDataView getAdminDataView() {
+    public SWTAdminDataView getDataView() {
         return _adminDataView;
     }
 

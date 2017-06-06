@@ -22,7 +22,7 @@ package net.sf.timecut.ui.swt;
 import net.sf.timecut.AppInfo;
 import net.sf.timecut.PlatformUtil;
 import net.sf.timecut.ResourceHelper;
-import net.sf.timecut.TimeTracker;
+import net.sf.timecut.DataManager;
 import net.sf.timecut.io.AutosaveManagerListener;
 import net.sf.timecut.ui.GenericUIManager;
 import net.sf.timecut.ui.swt.calendar.CalendarDialog;
@@ -114,7 +114,7 @@ public class SWTUIAdminManager implements GenericUIManager, AutosaveManagerListe
         _adminWindow.getDetailsView().updateOnSelection(object);
         _adminWindow.getStatusLine().setSelection(object);
         _adminWindow.getMainMenu().updateOnSelection(object);
-        _adminWindow.getTimeLogView().updateOnTreeSelection(object);
+        _adminWindow.getDataView().updateOnTreeSelection(object);
     }
 
     public void updateOnRemove(Object object) {
@@ -128,7 +128,7 @@ public class SWTUIAdminManager implements GenericUIManager, AutosaveManagerListe
         _adminWindow.updateTitle();
         TrayMenu.dispose();
         //_adminWindow.getMainMenu().updateFlagged();
-        TimeRecordFilter filter = TimeTracker.getInstance().getWorkspace().getFilter();
+        TimeRecordFilter filter = DataManager.getInstance().getWorkspace().getFilter();
         _adminWindow.getFilterView().updateFilterList();
         _adminWindow.getFilterView().setFilterSelection(filter);
     }
@@ -163,10 +163,10 @@ public class SWTUIAdminManager implements GenericUIManager, AutosaveManagerListe
     }
 
     public void updateTimeLog(Object source) {
-        _adminWindow.getTimeLogView().updateTable();
+        _adminWindow.getDataView().updateTable();
         if (source != null && source instanceof TimeRecord) {
-            _adminWindow.getTimeLogView().select();
-            _adminWindow.getTimeLogView().selectItem((TimeRecord) source);
+            _adminWindow.getDataView().select();
+            _adminWindow.getDataView().selectItem((TimeRecord) source);
             _adminWindow.getTreeView().setCurrentSelection(((TimeRecord) source).getTask());
         }
     }
@@ -183,7 +183,7 @@ public class SWTUIAdminManager implements GenericUIManager, AutosaveManagerListe
         int result = m.open();
         /*
         if (result == SWT.YES) {
-            TimeTracker.getInstance().saveWorkspace(true);
+            DataManager.getInstance().saveWorkspace(true);
         }
         */
         return (result == SWT.YES);
@@ -198,7 +198,7 @@ public class SWTUIAdminManager implements GenericUIManager, AutosaveManagerListe
         int result = m.open();
         /*
         if (result == SWT.YES) {
-            TimeTracker.getInstance().saveWorkspace(true);
+            DataManager.getInstance().saveWorkspace(true);
         }
         */
         return (result == SWT.YES);
@@ -309,13 +309,13 @@ public class SWTUIAdminManager implements GenericUIManager, AutosaveManagerListe
      * From AutosaveManagerListener.
      */
     public void doSave() {
-        TimeTracker tt = TimeTracker.getInstance();
+        DataManager tt = DataManager.getInstance();
         if (tt.getWorkspace() != null && !tt.isSaving()) {
             if (tt.getWorkspace().hasBeenModified()) {
                 if (!_display.isDisposed()) {
                     _display.asyncExec(new Runnable() {
                         public void run() {
-                            TimeTracker.getInstance().saveWorkspace(true);
+                            DataManager.getInstance().saveWorkspace(true);
                         }
                     });
                 }
@@ -338,7 +338,7 @@ public class SWTUIAdminManager implements GenericUIManager, AutosaveManagerListe
     }
 
     public static Text addDateField(final SWTDialog dialog, Composite contentPanel) {
-        IconSet iconSet = ((SWTUIAdminManager) TimeTracker.getInstance().getUIManager()).getIconSet();
+        IconSet iconSet = ((SWTUIAdminManager) DataManager.getInstance().getUIManager()).getIconSet();
         //
         // Create date entry panel
         //

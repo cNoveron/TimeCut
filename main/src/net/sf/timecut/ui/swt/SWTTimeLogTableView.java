@@ -56,7 +56,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-public class SWTTimeLogTableView {
+public class SWTTimeLogTableView implements SWTDataView {
 
     private final static String[] titles   = { "", "table.project", "table.task", "table.startDate", "table.startTime",
         "table.duration", "table.notes"   };

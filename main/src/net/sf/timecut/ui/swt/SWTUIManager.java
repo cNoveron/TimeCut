@@ -114,7 +114,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
         _mainWindow.getDetailsView().updateOnSelection(object);
         _mainWindow.getStatusLine().setSelection(object);
         _mainWindow.getMainMenu().updateOnSelection(object);
-        _mainWindow.getTimeLogView().updateOnTreeSelection(object);
+        _mainWindow.getDataView().updateOnTreeSelection(object);
     }
 
     public void updateOnRemove(Object object) {
@@ -163,10 +163,10 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
     }
 
     public void updateTimeLog(Object source) {
-        _mainWindow.getTimeLogView().updateTable();
+        _mainWindow.getDataView().updateTable();
         if (source != null && source instanceof TimeRecord) {
-            _mainWindow.getTimeLogView().select();
-            _mainWindow.getTimeLogView().selectItem((TimeRecord) source);
+            _mainWindow.getDataView().select();
+            _mainWindow.getDataView().selectItem((TimeRecord) source);
             _mainWindow.getTreeView().setCurrentSelection(((TimeRecord) source).getTask());
         }
     }

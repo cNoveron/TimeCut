@@ -203,7 +203,7 @@ public class SWTMainWindow implements SWTWindow {
     }
 
 
-    public SWTTimeLogTableView getTimeLogView() {
+    public SWTTimeLogTableView getDataView() {
         return _timeLogView;
     }
 
