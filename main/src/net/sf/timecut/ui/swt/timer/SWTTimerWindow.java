@@ -50,8 +50,8 @@ public class SWTTimerWindow implements StopwatchListener {
 
     private final static int MAX_TITLE_CHARS        = 15;
     private final static int NIMAGES                = 4;
-    private final static int NOTIF_MESSAGE_INTERVAL = 300000;           // 5
-                                                                         // min
+    private final static int NOTIF_MESSAGE_INTERVAL = 5000;           // 5
+                                                                         // sec
     private Workspace        workspace              = TimeTracker.getInstance()
                                                         .getWorkspace();
 
@@ -61,7 +61,7 @@ public class SWTTimerWindow implements StopwatchListener {
     private Display         _display;
     private Task            _task;
     private Label           _timeLabel;
-    private SWTWindow   _parent;
+    private SWTWindow       _parent;
     private static int      _instanceCount;
     private TrayItem        _trayItem;
     private TimerTrayMenu   _trayMenu;
@@ -191,8 +191,8 @@ public class SWTTimerWindow implements StopwatchListener {
             _duration = evt.getSource().getDuration();
             if (_duration - _lastNotifTime >= NOTIF_MESSAGE_INTERVAL
                 && AppPreferences.getInstance().isRunningTimerNotification()) {
-                _lastNotifTime = evt.getSource().getDuration();
-                _parent.showPopupMessage(_task.toString() + "\n"
+                    _lastNotifTime = evt.getSource().getDuration();
+                    _parent.showPopupMessage(_task.toString() + "\n"
                     + Formatter.toDurationString(_duration, true));
             }
             long intervalTime = _duration - _lastIntervalTime;

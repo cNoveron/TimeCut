@@ -50,7 +50,6 @@ public class SWTMainWindow implements SWTWindow {
     private SWTTimeLogTableView _timeLogView;
     private SWTMainToolBar      _mainToolBar;
     private SWTTotalsTableView  _totalsTableView;
-    //private SashForm            _treeFilterSash;
     private SWTDetailsView      _detailsView;
     private SWTStatusLine       _statusLine;
     private IconSet             _iconSet;
