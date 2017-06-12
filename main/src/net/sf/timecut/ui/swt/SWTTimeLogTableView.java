@@ -44,7 +44,10 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -60,8 +63,8 @@ public class SWTTimeLogTableView implements SWTDataView {
 
     private final static String[] titles   = { "", "table.project", "table.task", "table.startDate", "table.startTime",
         "table.duration", "table.notes"   };
-    private final static int[]    align    = { SWT.LEFT, SWT.LEFT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT,
-        SWT.LEFT                          };
+    private final static int[]    align    
+            = { SWT.LEFT, SWT.LEFT, SWT.LEFT, SWT.LEFT, SWT.LEFT, SWT.LEFT, SWT.LEFT };
 
     private TimeLogToolBar toolBar;
     private Composite contentArea;
@@ -111,11 +114,13 @@ public class SWTTimeLogTableView implements SWTDataView {
 
         GridData tableLayout = new GridData(GridData.FILL_BOTH);
         tableLayout.grabExcessVerticalSpace = true;
-        _table = new Table(contentArea, SWT.FULL_SELECTION | SWT.BORDER
-            | SWT.MULTI);
+        _table = new Table(contentArea, SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI
+            | SWT.NO_SCROLL);
         _table.setLayoutData(tableLayout);
-        _table.setLinesVisible(true);
+        _table.setLinesVisible(false);
         _table.setHeaderVisible(true);
+        _table.setFont(new Font(_mainWindow.getShell().getDisplay(),"Corbel", 12, SWT.ITALIC));
+        
         _table.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent evt) {
                 if (evt.stateMask == SWT.CTRL) {
@@ -377,7 +382,12 @@ public class SWTTimeLogTableView implements SWTDataView {
                 projectPath = proj.getName() + " -> " + projectPath;
             }
         }
-
+//        item.setImage(
+//            3
+//            ,this._mainWindow.getIconSet().getIcon("inProgress",true)
+//        );
+        item.setBackground(new Color(_mainWindow.getShell().getDisplay(),234,43,23));
+        item.setForeground(new Color(_mainWindow.getShell().getDisplay(),255,255,255));
         item.setText(1, projectPath);
         item.setText(2, filteredRec.getTask().toString());
         item.setText(3, Formatter.toDateString(filteredRec.getStart()));

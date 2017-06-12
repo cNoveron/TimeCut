@@ -47,6 +47,10 @@ public class Formatter {
         return dateFormatter.parse(dateString);
     }
     
+    public static Date parseDateTimeString(String dateString) throws ParseException {
+        return dateTimeFormatter.parse(dateString);
+    }
+    
     public static Date parseTimeString(String timeString) throws ParseException {
         return timeFormatter.parse(timeString);
     }

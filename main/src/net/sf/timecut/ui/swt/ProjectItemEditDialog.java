@@ -170,7 +170,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
                 this.closedText.setText(Formatter.toDateTimeString(item.getCloseDateTime(),true));
             }
             if (item.mayHaveDeadline() && item.getDeadline() != null) {
-                deadlineText.setText(Formatter.toDateString(item.getDeadline()));
+                deadlineText.setText(Formatter.toDateTimeString(item.getDeadline(),true));
             }
         }
         else {
@@ -207,7 +207,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
                 if (deadlineStr == null || deadlineStr.trim().isEmpty()) {
                     deadline = null;
                 } else {
-                    deadline = Formatter.parseDateString(deadlineText.getText());
+                    deadline = Formatter.parseDateTimeString(deadlineStr);
                 }
             } catch (ParseException e) {
                 errorMessage("Invalid date format!"); //TODO: LOCALIZE
@@ -216,7 +216,10 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
             if (deadline != null) {
                 Date current = Calendar.getInstance().getTime();
                 if (deadline.compareTo(current) < 0) {
-                    errorMessage("Deadline must be in the future!"); //TODO: LOCALIZE
+                    errorMessage(
+                        "Current date is: "+current+"\n"+
+                        "Deadline date is: "+deadline+"\n"+
+                        "Deadline must be in the future!"); //TODO: LOCALIZE
                     return false;
                 }
             }

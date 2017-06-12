@@ -69,7 +69,6 @@ public class SWTMainWindow implements SWTWindow {
         addToTray();
     }
 
-
     public Shell getShell() {
         return _shell;
     }
@@ -80,7 +79,6 @@ public class SWTMainWindow implements SWTWindow {
         m.setMessage(message);
         m.open();
     }
-
 
     /**
      * @return True if a user has choosen either 'YES' or 'NO' button.
@@ -96,7 +94,6 @@ public class SWTMainWindow implements SWTWindow {
         }
         return (result == SWT.YES || result == SWT.NO);
     }
-
 
     public boolean confirmExit(String message) {
         MessageBox m = new MessageBox(_shell, SWT.ICON_QUESTION | SWT.NO

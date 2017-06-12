@@ -4,11 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Carlos/Desktop/TimeCut/main/src/net/sf/timecut/TimeTracker.java</file>
-            <file>file:/C:/Users/Carlos/Desktop/TimeCut/main/src/net/sf/timecut/export/pdf/PdfTaskListExporter.java</file>
-            <file>file:/C:/Users/Carlos/Desktop/TimeCut/main/src/net/sf/timecut/ui/swt/SWTUIAdminManager.java</file>
             <file>file:/C:/Users/Carlos/Desktop/TimeCut/main/src/net/sf/timecut/ui/swt/SWTMainWindow.java</file>
-            <file>file:/C:/Users/Carlos/Desktop/TimeCut/main/src/net/sf/timecut/ui/swt/filter/AdvancedTimeFilterView.java</file>
-            <file>file:/C:/Users/Carlos/Desktop/TimeCut/main/src/net/sf/timecut/DataManager.java</file>
+            <file>file:/C:/Users/Carlos/Desktop/TimeCut/main/src/net/sf/timecut/ui/swt/SWTUIManager.java</file>
+            <file>file:/C:/Users/Carlos/Desktop/TimeCut/main/src/net/sf/timecut/ui/swt/SWTTimeLogTableView.java</file>
         </group>
     </open-files>
 </project-private>

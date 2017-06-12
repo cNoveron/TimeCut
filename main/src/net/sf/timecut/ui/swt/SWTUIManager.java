@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import java.awt.*;
 import java.io.File;
 import java.util.Calendar;
+import java.util.Date;
 import net.sf.timecut.model.*;
 
 public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
@@ -354,7 +355,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
         gd.widthHint = 100;
         final Text dateField = new Text(dateEntryPanel, SWT.BORDER);
         dateField.setLayoutData(gd);
-        dateField.setText("");
+        dateField.setText(Formatter.toDateTimeString(Calendar.getInstance().getTime(),false));
         //
         // Add date picker button
         //
@@ -367,7 +368,8 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
                 calDialog.setListener(new ICalendarDialogListener() {
                     @Override
                     public void dateSelected(Calendar data, Text dateField) {
-                        dateField.setText(Formatter.toDateString(data.getTime()));
+                        data.add(Calendar.MINUTE,1);
+                        dateField.setText(Formatter.toDateTimeString(data.getTime(),false));
                     }
                 });
                 calDialog.open();

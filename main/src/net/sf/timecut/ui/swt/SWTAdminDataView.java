@@ -378,11 +378,11 @@ public class SWTAdminDataView implements SWTDataView {
             }
         }
         
-        item.setText(1, projectPath+"madafaka");
-        item.setText(2, filteredRec.getTask().toString()+"madafaka");
-        item.setText(3, Formatter.toDateString(filteredRec.getStart())+"madafaka");
-        item.setText(4, Formatter.toTimeString(filteredRec.getStart())+"madafaka");
-        item.setText(5, filteredRec.getDuration().toString()+"madafaka");
+        item.setText(1, projectPath);
+        item.setText(2, filteredRec.getTask().toString());
+        item.setText(3, Formatter.toDateString(filteredRec.getStart()));
+        item.setText(4, Formatter.toTimeString(filteredRec.getStart()));
+        item.setText(5, filteredRec.getDuration().toString());
         String notes = timeRec.getNotes();
         if (notes == null)
             notes = "";

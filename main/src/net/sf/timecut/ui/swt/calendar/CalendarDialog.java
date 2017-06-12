@@ -40,7 +40,6 @@ public class CalendarDialog extends SWTDialog {
                 CalendarDialog.this.calendar = evt.getCalendar();
             }
         });
-
         return contentPanel;
     }
 

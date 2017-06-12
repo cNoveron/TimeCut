@@ -50,7 +50,7 @@ public class SWTAdminWindow implements SWTWindow {
     private SWTAdminMainMenu    _mainMenu;
     private SWTAdminDataView    _adminDataView;
     private SWTMainToolBar      _mainToolBar;
-    private SWTTotalsTableView  _totalsTableView;
+    private SWTAdminTotalsTableView  _totalsTableView;
     //private SashForm            _treeFilterSash;
     private SWTDetailsView      _detailsView;
     private SWTStatusLine       _statusLine;
@@ -148,7 +148,7 @@ public class SWTAdminWindow implements SWTWindow {
 
         _statusLine = new SWTStatusLine(this);
         _adminDataView = new SWTAdminDataView(this);
-        _totalsTableView = new SWTTotalsTableView(this);
+        _totalsTableView = new SWTAdminTotalsTableView(this);
         _detailsView = new SWTDetailsView(this);
 
         _treeTabSash.setWeights(AppPreferences.getInstance().getTreeTabSashWeights());
@@ -206,7 +206,7 @@ public class SWTAdminWindow implements SWTWindow {
     }
 
 
-    public SWTTotalsTableView getTotalsTableView() {
+    public SWTAdminTotalsTableView getTotalsTableView() {
         return _totalsTableView;
     }
 

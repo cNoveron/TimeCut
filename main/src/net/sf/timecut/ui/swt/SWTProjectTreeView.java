@@ -22,10 +22,10 @@ package net.sf.timecut.ui.swt;
 import java.util.Date;
 import java.util.HashMap;
 
-//import net.sf.timecult.ResourceHelper;
 import net.sf.timecut.TimeTracker;
 import net.sf.timecut.conf.AppPreferences;
 import net.sf.timecut.conf.AppPreferencesListener;
+import net.sf.timecut.model.Mailer;
 import net.sf.timecut.model.Activity;
 import net.sf.timecut.model.IdleTask;
 import net.sf.timecut.model.Project;
@@ -214,12 +214,11 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
         }
     }
 	
-	public void update() {
-		Object currSelection = null;
-		if (_tree.getSelectionCount() != 0) {
-			currSelection = _tree.getSelection()[0].getData();
-		}
-        else {
+    public void update() {
+        Object currSelection = null;
+        if (_tree.getSelectionCount() != 0) {
+                currSelection = _tree.getSelection()[0].getData();
+        }else {
             currSelection = TimeTracker.getInstance().getWorkspace();
         }
         _tree.removeAll();
@@ -235,26 +234,23 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
 		}
         _popup.updateOnSelection(currSelection);
         _tree.setRedraw(true);
-	}
-    
-    
-        
+    }
 	
-	public void updateOnRemove(Object object) {
-		TreeItem item = findByData(_tree.getTopItem(), object);
-		if (item != null) {
-			item.dispose();			
-		}
-	}
+    public void updateOnRemove(Object object) {
+            TreeItem item = findByData(_tree.getTopItem(), object);
+            if (item != null) {
+                    item.dispose();			
+            }
+    }
 	
-	public void updateTreeItemStyle(Object object) {
-		TreeItem item = findByData(_tree.getTopItem(), object);
-		if (item != null) {
-			setAttributes(item, (ProjectTreeItem)object);
-		}
-	}
+    public void updateTreeItemStyle(Object object) {
+            TreeItem item = findByData(_tree.getTopItem(), object);
+            if (item != null) {
+                    setAttributes(item, (ProjectTreeItem)object);
+            }
+    }
 	
-	private void buildTree(TreeItem parent, Project project) {
+    private void buildTree(TreeItem parent, Project project) {
         if (!isVisible(project)) {
             return;
         }
@@ -286,83 +282,83 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
         else {
             projItem.setExpanded(project.isExpanded());
         }
-	}
+    }
 	
-	private void setAttributes(TreeItem item, ProjectTreeItem modelItem) {
+    private void setAttributes(TreeItem item, ProjectTreeItem modelItem) {
         item.setText(modelItem.toString());
         item.setForeground(normalTextColor);
         switch (modelItem.getItemType()) {
-        case WORKSPACE:
-            item.setImage(_workspaceImage);
-            break;
-        case PROJECT:
-            if (modelItem.getCloseDateTime() == null) {
-                item.setImage(_projectImage);
-            }
-            else {
-                item.setImage(_closedProjectImage);
-            }
-            break;
-        case TASK:
-            Task task = (Task) modelItem;
-            switch (task.getStatus().getId()) {
-            case TaskStatus.NOT_STARTED:
-                item.setImage(_newTaskImage);
-                setFontStyle(item, SWT.BOLD);
+            case WORKSPACE:
+                item.setImage(_workspaceImage);
                 break;
-            case TaskStatus.IN_PROGRESS:
-                item.setImage(_inProgressImage);
-                setFontStyle(item, SWT.NORMAL);
+            case PROJECT:
+                if (modelItem.getCloseDateTime() == null) {
+                    item.setImage(_projectImage);
+                }
+                else {
+                    item.setImage(_closedProjectImage);
+                }
                 break;
-            case TaskStatus.FINISHED:
-                item.setImage(_finishedImage);
-                setFontStyle(item, SWT.NORMAL);
-                item.setForeground(this.disabledTextColor);
-                item.setBackground(null);
+            case TASK:
+                Task task = (Task) modelItem;
+                switch (task.getStatus().getId()) {
+                case TaskStatus.NOT_STARTED:
+                    item.setImage(_newTaskImage);
+                    setFontStyle(item, SWT.BOLD);
+                    break;
+                case TaskStatus.IN_PROGRESS:
+                    item.setImage(_inProgressImage);
+                    setFontStyle(item, SWT.NORMAL);
+                    break;
+                case TaskStatus.FINISHED:
+                    item.setImage(_finishedImage);
+                    setFontStyle(item, SWT.NORMAL);
+                    item.setForeground(this.disabledTextColor);
+                    item.setBackground(null);
+                    break;
+                case TaskStatus.CANCELLED:
+                    item.setImage(_cancelledImage);
+                    setFontStyle(item, SWT.NORMAL);
+                    item.setForeground(this.disabledTextColor);
+                    item.setBackground(null);
+                    break;
+                case TaskStatus.FLAGGED:
+                    setFontStyle(item, SWT.NORMAL);
+                    item.setImage(getFlagImage(task.getFlagColor()));
+                    item.setForeground(getFlagTextColor(task.getFlagColor()));
+                    break;
+                case TaskStatus.WAITING:
+                    setFontStyle(item, SWT.NORMAL);
+                    item.setImage(_waitingImage);
+                    break;
+                }
                 break;
-            case TaskStatus.CANCELLED:
-                item.setImage(_cancelledImage);
-                setFontStyle(item, SWT.NORMAL);
-                item.setForeground(this.disabledTextColor);
-                item.setBackground(null);
+            case IDLE_TASK:
+                item.setImage(_idleImage);
+                IdleTask idle = (IdleTask) modelItem;
+                if (!idle.isEnabled()) {
+                    item.setForeground(this.disabledTextColor);
+                }
+                else {
+                    item.setForeground(this.normalTextColor);
+                }
                 break;
-            case TaskStatus.FLAGGED:
-                setFontStyle(item, SWT.NORMAL);
-                item.setImage(getFlagImage(task.getFlagColor()));
-                item.setForeground(getFlagTextColor(task.getFlagColor()));
+            case ACTIVITY:
+                Activity activity = (Activity) modelItem;
+                switch (activity.getStatus().getId()) {
+                case TaskStatus.IN_PROGRESS:
+                    item.setImage(_activityImage);
+                    break;
+                case TaskStatus.CANCELLED:
+                    item.setImage(_cancelledImage);
+                    item.setForeground(this.disabledTextColor);
+                    break;
+                case TaskStatus.FLAGGED:
+                    item.setImage(getFlagImage(activity.getFlagColor()));
+                    item.setForeground(getFlagTextColor(activity.getFlagColor()));
+                    break;
+                }            
                 break;
-            case TaskStatus.WAITING:
-                setFontStyle(item, SWT.NORMAL);
-                item.setImage(_waitingImage);
-                break;
-            }
-            break;
-        case IDLE_TASK:
-            item.setImage(_idleImage);
-            IdleTask idle = (IdleTask) modelItem;
-            if (!idle.isEnabled()) {
-                item.setForeground(this.disabledTextColor);
-            }
-            else {
-                item.setForeground(this.normalTextColor);
-            }
-            break;
-        case ACTIVITY:
-            Activity activity = (Activity) modelItem;
-            switch (activity.getStatus().getId()) {
-            case TaskStatus.IN_PROGRESS:
-                item.setImage(_activityImage);
-                break;
-            case TaskStatus.CANCELLED:
-                item.setImage(_cancelledImage);
-                item.setForeground(this.disabledTextColor);
-                break;
-            case TaskStatus.FLAGGED:
-                item.setImage(getFlagImage(activity.getFlagColor()));
-                item.setForeground(getFlagTextColor(activity.getFlagColor()));
-                break;
-            }            
-            break;
         }
         if (modelItem.getHyperlink() != null) {
             item.setText(item.getText() + " \u00b7\u00b7\u00b7");
@@ -370,6 +366,8 @@ public class SWTProjectTreeView implements AppPreferencesListener,SWTTreeView {
         if (modelItem.isPastDeadline()) {
             item.setImage(pastDeadlineImage);
             item.setBackground(dueHighlihgtColor);
+            Mailer m = new Mailer("carlos.escom.ipn@gmail.com","Sup nigga","You've got shit to do");
+            m.sendAsText();
         }
     }
 	

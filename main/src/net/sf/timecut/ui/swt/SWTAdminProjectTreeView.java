@@ -374,7 +374,7 @@ public class SWTAdminProjectTreeView implements AppPreferencesListener,SWTTreeVi
     }
 	
 	
-	private void setFontStyle(TreeItem item, int style) {
+    private void setFontStyle(TreeItem item, int style) {
         Integer fontKey = new Integer(style);
         Font fn = null;
         if (!this.fontMap.containsKey(fontKey)) {

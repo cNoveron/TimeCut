@@ -133,6 +133,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         Date time;
         Duration duration;
         try {
+            System.out.println(startDateField.getText());
             date = Formatter.parseDateString(startDateField.getText());
         }
         catch (ParseException e) {
@@ -192,7 +193,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         GridData gd = new GridData();
         gd.widthHint = 80;        
         startDateField = new Text(dateEntryPanel, SWT.BORDER);
-        startDateField.setText(Formatter.toDateString(timeRec.getStart()));        
+        startDateField.setText(Formatter.toDateTimeString(timeRec.getStart(),false));        
         //
         // Add date picker button
         //
@@ -295,7 +296,8 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
 
 
     public void dateSelected(Calendar data, Text dateField) {
-        this.startDateField.setText(Formatter.toDateString(data.getTime()));        
+        System.out.println(data.getTime());
+        this.startDateField.setText(Formatter.toDateTimeString(data.getTime(),false));        
     }
     
     

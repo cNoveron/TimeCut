@@ -82,7 +82,6 @@ public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListe
         return contentPanel;
     }
 
-
     @Override
     protected String getTitle() {
         return ResourceHelper.getString("filter.dialog.title");
@@ -94,7 +93,6 @@ public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListe
         }
         return instance;
     }
-
 
     @Override
     protected boolean handleOk() {
@@ -122,9 +120,6 @@ public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListe
         this.filterView.addCustomFilter(filter);
         return true;
     }
-
-
-
 
     public void dateSelected(Calendar data, Text dateField) {
         dateField.setText(Formatter.toDateString(data.getTime()));
