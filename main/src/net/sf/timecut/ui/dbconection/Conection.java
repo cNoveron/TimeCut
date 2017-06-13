@@ -38,4 +38,30 @@ public class Conection {
         statement.setBlob(1, inputStream);
         statement.executeUpdate();
     }
+
+    public void registrarUsuario(String nom, String ap, String am, String usu, String psw) throws SQLException {
+        String sql = "insert into usuario (nombre,aPaterno,aMaterno,usuario,contrasenia) values (?)";
+        PreparedStatement statement = con.prepareStatement(sql);
+        statement.setString(0, nom);
+        statement.setString(1, ap);
+        statement.setString(2, am);
+        statement.setString(3, usu);
+        statement.setString(4, psw);
+        statement.executeUpdate();
+    }
+
+    public boolean checkUser(String usu, String psw) throws SQLException {
+        String sql = "select * from usuario where usuario = " + usu;
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        String contraseña;
+        if(rs.next()){
+            contraseña = rs.getString(4);
+            return (contraseña.equals(psw));
+        }
+        else{
+            return false;
+        }
+        
+    }
 }
