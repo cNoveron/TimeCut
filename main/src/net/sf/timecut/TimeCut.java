@@ -83,14 +83,19 @@ public class TimeCut extends JFrame implements ActionListener {
                 Conection con = new Conection();
                 if(con.checkUser(jt1.getText(),jp2.getText())){
 //                    TimeTracker tt = new TimeTracker();
-                    TimeTracker timeTracker = new TimeTracker();
-                    timeTracker.loadConfiguration(); 
-                        timeTracker.resetWorkspace();
-                        if (timeTracker.getAppPreferences().isAutoOpenRecentFile()) {
-                            timeTracker.openRecentFile();
-                        }
-                    
-                    timeTracker.startUI();
+                    if(con.checkValidacion(jt1.getText())){
+                        TimeTracker timeTracker = new TimeTracker();
+                        timeTracker.loadConfiguration(); 
+                            timeTracker.resetWorkspace();
+                            if (timeTracker.getAppPreferences().isAutoOpenRecentFile()) {
+                                timeTracker.openRecentFile();
+                            }
+
+                        timeTracker.startUI();
+                    }
+                    else{
+                        ValidationCode valc = new ValidationCode(jt1.getText());
+                    }
                 }
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(TimeCut.class.getName()).log(Level.SEVERE, null, ex);

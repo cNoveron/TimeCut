@@ -27,12 +27,14 @@ class RegistrarUsuario extends JFrame implements ActionListener {
     JTextField jt4 = new JTextField();
     JTextField jt5 = new JTextField();
     JTextField jt6 = new JTextField();
+    JTextField jt7 = new JTextField();
     JLabel jl1 = new JLabel("Nombre");
     JLabel jl2 = new JLabel("Apellido Materno");
     JLabel jl3 = new JLabel("Apellido paterno");
     JLabel jl4 = new JLabel("Usuario");
     JLabel jl5 = new JLabel("Contraseña");
     JLabel jl6 = new JLabel("Repita contraseña");
+    JLabel jl7 = new JLabel("Correo electronico");
     JButton bot1 = new JButton("Registrarse");
     JButton bot2 = new JButton("Regresar");
 
@@ -47,18 +49,20 @@ class RegistrarUsuario extends JFrame implements ActionListener {
         
         jt1.setBounds(getWidth()/2+20, 250, 300, 40);
         jt2.setBounds(getWidth()/2+20, 300, 300, 40);
-        jt3.setBounds(getWidth()/2+20, 350, 260, 40);
-        jt4.setBounds(getWidth()/2+20, 400, 260, 40);
-        jt5.setBounds(getWidth()/2+20, 450, 260, 40);
-        jt6.setBounds(getWidth()/2+20, 500, 260, 40);
-        jl1.setBounds(getWidth()/2-230, 250, 260, 40);
-        jl2.setBounds(getWidth()/2-230, 300, 260, 40);
-        jl3.setBounds(getWidth()/2-230, 350, 260, 40);
-        jl4.setBounds(getWidth()/2-230, 400, 260, 40);
-        jl5.setBounds(getWidth()/2-230, 450, 260, 40);
-        jl6.setBounds(getWidth()/2-230, 500, 260, 40);
-        bot1.setBounds(getWidth()/2-130, 600, 260, 40);
-        bot2.setBounds(getWidth()/2-130, 650, 260, 40);
+        jt3.setBounds(getWidth()/2+20, 350, 300, 40);
+        jt4.setBounds(getWidth()/2+20, 400, 300, 40);
+        jt5.setBounds(getWidth()/2+20, 450, 300, 40);
+        jt6.setBounds(getWidth()/2+20, 500, 300, 40);
+        jt7.setBounds(getWidth()/2+20, 550, 300, 40);
+        jl1.setBounds(getWidth()/2-230, 250, 300, 40);
+        jl2.setBounds(getWidth()/2-230, 300, 300, 40);
+        jl3.setBounds(getWidth()/2-230, 350, 300, 40);
+        jl4.setBounds(getWidth()/2-230, 400, 300, 40);
+        jl5.setBounds(getWidth()/2-230, 450, 300, 40);
+        jl6.setBounds(getWidth()/2-230, 500, 300, 40);
+        jl7.setBounds(getWidth()/2-230, 550, 300, 40);
+        bot1.setBounds(getWidth()/2-130, 650, 300, 40);
+        bot2.setBounds(getWidth()/2-130, 700, 300, 40);
         
         Font font = new Font("Arial",10,30);
         jt1.setFont(font);
@@ -67,12 +71,14 @@ class RegistrarUsuario extends JFrame implements ActionListener {
         jt4.setFont(font);
         jt5.setFont(font);
         jt6.setFont(font);
+        jt7.setFont(font);
         jl1.setFont(font);
         jl2.setFont(font);
         jl3.setFont(font);
         jl4.setFont(font);
         jl5.setFont(font);
         jl6.setFont(font);
+        jl7.setFont(font);
         bot1.setFont(font);
         bot2.setFont(font);
 
@@ -82,12 +88,14 @@ class RegistrarUsuario extends JFrame implements ActionListener {
         add(jt4);
         add(jt5);
         add(jt6);
+        add(jt7);
         add(jl1);
         add(jl2);
         add(jl3);
         add(jl4);
         add(jl5);
         add(jl6);
+        add(jl7);
         add(bot1);
         add(bot2);
 
@@ -102,7 +110,7 @@ class RegistrarUsuario extends JFrame implements ActionListener {
                 if (jt5.getText().equals(jt6.getText())) {
                     Conection con = new Conection();
 
-                    con.registrarUsuario(jt1.getText(), jt2.getText(), jt3.getText(), jt4.getText(), jt5.getText());
+                    con.registrarUsuario(jt1.getText(), jt2.getText(), jt3.getText(), jt4.getText(), jt5.getText(), jt7.getText());
                 } else {
                     JOptionPane.showMessageDialog(null, "Contraseñas no coinciden","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
