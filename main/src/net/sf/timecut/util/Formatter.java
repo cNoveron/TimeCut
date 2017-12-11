@@ -135,8 +135,7 @@ public class Formatter {
 
             seconds -= hours * SEC_PER_HOUR;
             int minutes = seconds / SEC_PER_MIN;
-            buf.append(format(minutes));
-            buf.append(":");
+            buf.append(format(minutes)).append(":");
 
             seconds -= minutes * SEC_PER_MIN;
             buf.append(format(seconds));

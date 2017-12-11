@@ -386,7 +386,15 @@ public class SWTTimeLogTableView implements SWTDataView {
 //            3
 //            ,this._mainWindow.getIconSet().getIcon("inProgress",true)
 //        );
-        item.setBackground(new Color(_mainWindow.getShell().getDisplay(),234,43,23));
+        double rojo;
+        item.setBackground(
+            new Color(
+                _mainWindow.getShell().getDisplay(),
+                100+(int)(128*(rojo = Math.random())),
+                100+(int)(128*Math.random()),
+                100+(int)(128*Math.random())
+            )
+        );
         item.setForeground(new Color(_mainWindow.getShell().getDisplay(),255,255,255));
         item.setText(1, projectPath);
         item.setText(2, filteredRec.getTask().toString());

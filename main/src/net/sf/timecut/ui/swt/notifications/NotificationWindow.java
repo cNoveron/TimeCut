@@ -77,8 +77,8 @@ public class NotificationWindow {
                 if (!shell.isDisposed() && shell.isVisible()) {
                     shell.setAlpha(alpha);
                 }
-            }}
-        );
+            }
+        });
     }
     
     public void close() {
@@ -92,7 +92,7 @@ public class NotificationWindow {
     }
     
     private void setup(Shell shell) {
-        shell.setText("TimeCult");
+        shell.setText("TimeCut");
         
         GridLayout gl = new GridLayout();
         gl.numColumns = 2;
